@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/screens/order_screens/orders/providers/appwrite_order_provider.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/constants.dart';
 
 class OrderDetailScreen extends StatelessWidget {
@@ -30,7 +31,7 @@ class OrderDetailScreen extends StatelessWidget {
             if (itemSnapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: LoadingAnimationWidget.horizontalRotatingDots(
-                  color: Colors.redAccent,
+                  color: ColorClass.kPrimaryColor,
                   size: 35,
                 ),
               );
@@ -77,7 +78,8 @@ class OrderDetailScreen extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 7, vertical: 3),
                                 decoration: BoxDecoration(
-                                  color: Colors.red[300],
+                                  color: ColorClass.redAccentColor
+                                      .withOpacity(0.8),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Text(
@@ -262,7 +264,8 @@ class OrderDetailScreen extends StatelessWidget {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.redAccent,
+                              backgroundColor: ColorClass.redAccentColor
+                              ,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),

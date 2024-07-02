@@ -1,9 +1,8 @@
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
-import 'package:souq_alqua/screens/authentication/sign_up/sign_up_screen.dart';
 import 'package:souq_alqua/screens/home/init_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:souq_alqua/utils/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/utils/style_class.dart';
 
 class NoAccountText extends StatelessWidget {
   const NoAccountText({
@@ -21,29 +20,13 @@ class NoAccountText extends StatelessWidget {
               snap.updateGuestLogin = true;
               Navigator.pushNamed(context, InitScreen.routeName);
             },
-            child: const Text(
+            child: Text(
               "Continue as guest?",
-              style: TextStyle(fontSize: 16, color: kPrimaryColor),
+              style: TextStyleClass.text16Primary,
             ),
           ),
         );
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            "looking for guest login? ",
-            style: TextStyle(fontSize: 16),
-          ),
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
-            child: const Text(
-              "Skip login",
-              style: TextStyle(fontSize: 16, color: kPrimaryColor),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

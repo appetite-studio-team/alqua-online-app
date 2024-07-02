@@ -9,9 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
 
 import 'package:souq_alqua/screens/authentication/sign_in/sign_in_screen.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/constants.dart';
 import 'package:souq_alqua/utils/image_class.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:souq_alqua/utils/style_class.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -53,10 +55,10 @@ class _CartScreenState extends State<CartScreen> {
                       margin: const EdgeInsets.only(left: 10),
                       padding: const EdgeInsets.all(8),
                       decoration: const BoxDecoration(
-                        color: Colors.redAccent,
+                        color: ColorClass.kPrimaryColor,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.redAccent,
+                            color: ColorClass.kPrimaryColor,
                             blurRadius: 2,
                             spreadRadius: 1,
                           )
@@ -108,7 +110,7 @@ class _CartScreenState extends State<CartScreen> {
               : cartProvider.isAddtoCartLoading
                   ? Center(
                       child: LoadingAnimationWidget.horizontalRotatingDots(
-                        color: Colors.redAccent,
+                        color: ColorClass.kPrimaryColor,
                         size: 35,
                       ),
                     )
@@ -120,19 +122,17 @@ class _CartScreenState extends State<CartScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    ImageClass.toyCart,
-                                    height: 70,
+                                    ImageClass.emptyCart,
+                                    height: 80,
                                   ),
                                   const SizedBox(height: 10),
                                   //empty cart
-
                                   Text(
-                                    "سلة التسوق فاضية، \nأضف بعض الأدوات التقنية الرائعة!",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    "سلة التسوق فاضية \nأضف بعض الأدوات التقنية الرائعة!",
+                                    style: TextStyleClass.text16BlackAr,
                                     textAlign: TextAlign.center,
                                   ),
-                                  const SizedBox(height: 15),
+                                  const SizedBox(height: 20),
                                   // start shopping button with dropshadow
                                   Container(
                                     width:
@@ -140,7 +140,8 @@ class _CartScreenState extends State<CartScreen> {
                                     decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.red.withOpacity(0.5),
+                                          color: ColorClass.kPrimaryColor
+                                              .withOpacity(0.5),
                                           spreadRadius: 1,
                                           blurRadius: 15,
                                           offset: const Offset(0,
@@ -302,7 +303,8 @@ class _CartScreenState extends State<CartScreen> {
                                                           child: const Text(
                                                             'Cancel',
                                                             style: TextStyle(
-                                                              color: Colors.red,
+                                                              color: ColorClass
+                                                                  .kPrimaryColor,
                                                             ),
                                                           ),
                                                         ),
@@ -317,7 +319,8 @@ class _CartScreenState extends State<CartScreen> {
                                                           child: const Text(
                                                             'Remove',
                                                             style: TextStyle(
-                                                              color: Colors.red,
+                                                              color: ColorClass
+                                                                  .kPrimaryColor,
                                                             ),
                                                           ),
                                                         ),

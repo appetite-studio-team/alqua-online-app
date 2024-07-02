@@ -15,10 +15,12 @@ class PopularProducts extends StatelessWidget {
       builder: (context, snapshot, child) => Column(
         children: [
           const Padding(
+            //"Popular Products",
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: SectionTitle(
-              title: "Latest Toys",
+              title: "🔥 الأكثر مبيعاً",
               press: null,
+              reverseAlign: true,
             ),
           ),
           const SizedBox(height: 10),
@@ -33,19 +35,19 @@ class PopularProducts extends StatelessWidget {
               crossAxisSpacing: 10,
               childAspectRatio: 0.72,
             ),
-            itemCount: snapshot.allProducts.length > 40
+            itemCount: snapshot.topSellingProduct.length > 40
                 ? 40
-                : snapshot.allProducts.length,
+                : snapshot.topSellingProduct.length,
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.all(10),
               child: DynamicProductCard(
-                product: snapshot.allProducts[index],
+                product: snapshot.topSellingProduct[index],
                 onPress: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProductDetailsScreen(
-                          product: snapshot.allProducts[index],
+                          product: snapshot.topSellingProduct[index],
                         ),
                       ));
                 },

@@ -6,6 +6,7 @@ import 'package:souq_alqua/screens/home/init_screen.dart';
 import 'package:souq_alqua/screens/order_screens/orders/providers/appwrite_order_provider.dart';
 import 'package:souq_alqua/screens/order_screens/orders/screens/order_detail_screen.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 
 import 'package:souq_alqua/utils/constants.dart';
 import 'package:souq_alqua/utils/image_class.dart';
@@ -71,7 +72,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.red.withOpacity(0.5),
+                              color: ColorClass.kPrimaryColor.withOpacity(0.5),
                               spreadRadius: 1,
                               blurRadius: 15,
                               offset: const Offset(
@@ -208,7 +209,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                           height: 5,
                         ),
                         Text(
-                          'Delivery Date: ${orderService.getFormattedDeliveryDate(order.data['createdAt'], order.data['status'])}',
+                          'Delivery Date: ${orderService.getFormattedDeliveryDate(order.$createdAt, order.data['status'])}',
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 12),
                         ),
@@ -216,7 +217,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                           height: 5,
                         ),
                         Text(
-                          'Order Date: ${DateFormat('MMMM d, yyyy').format(DateTime.parse(order.data['createdAt']))}',
+                          'Order Date: ${DateFormat('MMMM d, yyyy').format(DateTime.parse(order.$createdAt))}',
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 12),
                         ),

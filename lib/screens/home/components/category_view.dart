@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
 import 'package:souq_alqua/screens/product/products/products_screen.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 
 import 'section_title.dart';
 
@@ -19,7 +20,7 @@ class CategoryView extends StatelessWidget {
       builder: (context, snapshot, child) => snapshot.getAllCategoriesLoading
           ? Center(
               child: LoadingAnimationWidget.horizontalRotatingDots(
-                color: Colors.redAccent,
+                color: ColorClass.kPrimaryColor,
                 size: 35,
               ),
             )
@@ -28,7 +29,9 @@ class CategoryView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SectionTitle(
-                    title: "Shop by Categories",
+                    // shop by category
+                    title: "تسوق حسب الفئات",
+                    reverseAlign: true,
                     press: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {

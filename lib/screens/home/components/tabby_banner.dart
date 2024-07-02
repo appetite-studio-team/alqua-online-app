@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 
-class DiscountBanner extends StatelessWidget {
-  const DiscountBanner({
+class TabbyBanner extends StatelessWidget {
+  const TabbyBanner({
     Key? key,
   }) : super(key: key);
 
@@ -11,10 +11,10 @@ class DiscountBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.all(20),
+      margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       padding: const EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: 16,
+        vertical: 27,
       ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(

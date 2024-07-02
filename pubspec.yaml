@@ -52,6 +52,7 @@ dependencies:
   flutter_html:
   cached_network_image: 
   floating_snackbar: ^1.0.3+1
+  google_fonts: ^5.0.0
   
 
 dev_dependencies:

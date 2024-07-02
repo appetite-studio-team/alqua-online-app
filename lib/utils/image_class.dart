@@ -12,4 +12,9 @@ class ImageClass {
   static const String whatsappIcon = '${imageRoot}whatsapp-icon.png';
   static const String loginToyCar = '${imageRoot}login-car.png';
   static const String emptyProductImage = '${imageRoot}no-product-image.png';
+  static const String emptyCart = '${imageRoot}empty-cart.png';
+  static const String workerIcon = '${imageRoot}worker-icon.png';
+  static const String supermarket = '${imageRoot}supermarket.png';
+  static const String restaurants = '${imageRoot}restaurants.png';
+  static const String taxi = '${imageRoot}taxi.png';
 }

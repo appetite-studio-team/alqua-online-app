@@ -4,7 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
 
 import 'package:share_plus/share_plus.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/constants.dart';
+import 'package:souq_alqua/utils/style_class.dart';
 
 class ProductDescription extends StatelessWidget {
   const ProductDescription({
@@ -26,7 +28,7 @@ class ProductDescription extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 5),
                 child: Text(
                   product.name ?? "",
                   textAlign: TextAlign.start,
@@ -68,9 +70,21 @@ class ProductDescription extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: ColorClass.lightBlueColor,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  "Al Mubarak Electronics",
+                  style: TextStyleClass.text12Black,
+                ),
+              ),
+              const SizedBox(height: 10),
               RichText(
                 text: TextSpan(
-                  text: "Description ",
+                  text: "Description",
                   style: const TextStyle(
                     color: kBlackColor,
                     fontSize: 15,

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
 import 'package:souq_alqua/screens/product/product_detail_screen/product_details_screen.dart';
 import 'package:souq_alqua/components/product_card.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 import 'section_title.dart';
 
 class TopSellingProducts extends StatelessWidget {
@@ -23,8 +24,11 @@ class TopSellingProducts extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                     horizontal: 20,
                   ),
+                  //"Top Selling 🔥",
+
                   child: SectionTitle(
-                    title: "Top Selling 🔥",
+                    title: "🔥 الأكثر مبيعاً",
+                    reverseAlign: true,
                     press: null,
                   ),
                 ),
@@ -32,7 +36,7 @@ class TopSellingProducts extends StatelessWidget {
                 productsProvider.isTopSellingLoading
                     ? Center(
                         child: LoadingAnimationWidget.horizontalRotatingDots(
-                        color: Colors.redAccent,
+                        color: ColorClass.kPrimaryColor,
                         size: 30,
                       ))
                     : SizedBox(

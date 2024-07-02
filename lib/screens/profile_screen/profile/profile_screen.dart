@@ -1,4 +1,3 @@
-import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:souq_alqua/faq_screen/faq_screen.dart';
 import 'package:souq_alqua/screens/cart/cart_screen.dart';
@@ -10,6 +9,7 @@ import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provide
 import 'package:souq_alqua/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/constants.dart';
 import 'package:souq_alqua/utils/image_class.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -241,103 +241,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }))
                       },
                     ),
-                    Consumer<AddressProvider>(
-                      builder: (context, value, child) => ProfileMenu(
-                        text: value.userSelectedCountry ?? "Select Country",
-                        icon: "assets/icons/Location point.svg",
-                        press: () {
-                          final countryList = [
-                            'UAE 🇦🇪',
-                            'Saudi Arabia 🇸🇦',
-                            'Kuwait 🇰🇼',
-                            'Bahrain 🇧🇭',
-                            'Oman 🇴🇲',
-                            'Qatar 🇶🇦',
-                          ];
-                          if (countryList.isNotEmpty) {
-                            floatingSnackBar(
-                                message:
-                                    'Currently we are only serving in UAE 🇦🇪',
-                                context: context);
-
-                            return;
-                          } else {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text('Select Country',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                          IconButton(
-                                            icon: const Icon(Icons.close),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      const Divider(),
-                                      Expanded(
-                                        child: ListView.builder(
-                                          padding: const EdgeInsets.all(8),
-                                          itemCount: countryList.length,
-                                          itemBuilder: (context, index) {
-                                            return ListTile(
-                                              leading: value
-                                                          .userSelectedCountry ==
-                                                      countryList[index]
-                                                  ? const Icon(Icons.check)
-                                                  : const Icon(Icons
-                                                      .radio_button_unchecked),
-                                              title: Text(countryList[index],
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color:
-                                                          value.userSelectedCountry ==
-                                                                  countryList[
-                                                                      index]
-                                                              ? Colors.black
-                                                              : Colors.grey,
-                                                      fontWeight:
-                                                          FontWeight.w600)),
-                                              onTap: () {
-                                                // value.selectOrUpdateCountry(
-                                                //   countryList[index],
-                                                // );
-                                                floatingSnackBar(
-                                                    message:
-                                                        'Currently we are only serving in UAE 🇦🇪',
-                                                    context: context);
-
-                                                Navigator.of(context).pop();
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          }
-                        },
-                      ),
-                    ),
                     ProfileMenu(
                       text: "Frequently Asked Questions",
                       icon: "assets/icons/Question mark.svg",
@@ -387,7 +290,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.redAccent),
+                                      backgroundColor:
+                                          ColorClass.kPrimaryColor),
                                   onPressed: () async {
                                     snap.logoutFn(context: context);
                                   },

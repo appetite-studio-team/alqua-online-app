@@ -11,9 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
 
 import 'package:souq_alqua/screens/authentication/sign_in/sign_in_screen.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/constants.dart';
 import 'package:souq_alqua/utils/image_class.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:souq_alqua/utils/style_class.dart';
 
 class CheckOutScreen extends StatefulWidget {
   const CheckOutScreen({super.key});
@@ -55,10 +57,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       margin: const EdgeInsets.only(left: 10),
                       padding: const EdgeInsets.all(8),
                       decoration: const BoxDecoration(
-                        color: Colors.redAccent,
+                        color: ColorClass.kPrimaryColor,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.redAccent,
+                            color: ColorClass.kPrimaryColor,
                             blurRadius: 2,
                             spreadRadius: 1,
                           )
@@ -110,7 +112,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               : cartProvider.isAddtoCartLoading
                   ? Center(
                       child: LoadingAnimationWidget.horizontalRotatingDots(
-                        color: Colors.redAccent,
+                        color: ColorClass.kPrimaryColor,
                         size: 35,
                       ),
                     )
@@ -126,10 +128,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     height: 70,
                                   ),
                                   const SizedBox(height: 10),
+                                  // order placed - shop will contact you
                                   Text(
-                                    "Your cart is a toy car garage, \nfill it up with some speedy rides!",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    "تم تقديم الطلب، سيتصل بك المتجر",
+                                    style: TextStyleClass.text16BlackAr,
                                     textAlign: TextAlign.center,
                                   ),
                                   const SizedBox(height: 15),
@@ -140,7 +142,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.red.withOpacity(0.5),
+                                          color: ColorClass.kPrimaryColor
+                                              .withOpacity(0.5),
                                           spreadRadius: 1,
                                           blurRadius: 15,
                                           offset: const Offset(0,
@@ -312,7 +315,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                           "Please select a delivery address",
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.redAccent),
+                                              color: ColorClass.kPrimaryColor),
                                         ),
                                   trailing: IconButton(
                                     onPressed: () {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/screens/order_screens/delivery_locations/providers/delivery_location_provider.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -105,8 +106,9 @@ class _LocationScreenState extends State<LocationScreen> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 6, vertical: 3),
                                 decoration: BoxDecoration(
-                                  color: Colors.red[300],
-                                  borderRadius: BorderRadius.circular(5),
+                                  color:
+                                      ColorClass.kPrimaryColor.withOpacity(0.8),
+                                  borderRadius: BorderRadius.circular(3),
                                 ),
                                 child: const Text(
                                   "Default",
@@ -120,9 +122,10 @@ class _LocationScreenState extends State<LocationScreen> {
                         ),
                       ),
                       subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Door No: ${provider.addresses[index].doorNo}, ${provider.addresses[index].street}, ${provider.addresses[index].city}, United Arab Emirates,\nPhone: ${provider.addresses[index].phoneNumber}',
+                            'Door No: ${provider.addresses[index].doorNo},Al Quoa,\nPhone: ${provider.addresses[index].phoneNumber}',
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.grey,
@@ -212,27 +215,24 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                     const SizedBox(height: 20),
                     AddressCustomTextField(
-                        textController: addressName, hintText: 'Address Name'),
+                      textController: doorNo,
+                      hintText: 'Door No/ Apt No',
+                      numKeyPad: true,
+                    ),
                     const SizedBox(height: 16),
                     AddressCustomTextField(
-                        textController: doorNo, hintText: 'Door No/ Apt No'),
+                        textController: addressName, hintText: 'Address'),
                     const SizedBox(height: 16),
                     AddressCustomTextField(
-                        textController: street, hintText: 'Street'),
-                    const SizedBox(height: 16),
-                    AddressCustomTextField(
-                        textController: city, hintText: 'City'),
-                    const SizedBox(height: 16),
-                    AddressCustomTextField(
-                        textController: phoneNumber,
-                        hintText: 'Phone Number 🇦🇪'),
+                      textController: phoneNumber,
+                      hintText: 'Phone Number 🇦🇪',
+                      numKeyPad: true,
+                    ),
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () async {
                         // validate all fields
                         if (addressName.text.isEmpty ||
-                            street.text.isEmpty ||
-                            city.text.isEmpty ||
                             doorNo.text.isEmpty ||
                             phoneNumber.text.isEmpty) {
                           floatingSnackBar(
@@ -295,10 +295,12 @@ class AddressCustomTextField extends StatelessWidget {
     super.key,
     required this.textController,
     required this.hintText,
+    this.numKeyPad = false,
   });
 
   final TextEditingController textController;
   final String hintText;
+  final bool numKeyPad;
 
   @override
   Widget build(BuildContext context) {
@@ -306,7 +308,9 @@ class AddressCustomTextField extends StatelessWidget {
       controller: textController,
       keyboardType: hintText == 'Phone Number 🇦🇪'
           ? TextInputType.phone
-          : TextInputType.text,
+          : numKeyPad
+              ? TextInputType.number
+              : TextInputType.text,
       decoration: InputDecoration(
         labelText: hintText == 'Phone Number 🇦🇪'
             ? 'Enter your phone number'
@@ -343,13 +347,13 @@ class AddressCustomTextField extends StatelessWidget {
         errorBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           borderSide: BorderSide(
-            color: Colors.red,
+            color: ColorClass.kPrimaryColor,
           ),
         ),
         focusedErrorBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           borderSide: BorderSide(
-            color: Colors.red,
+            color: ColorClass.kPrimaryColor,
           ),
         ),
       ),

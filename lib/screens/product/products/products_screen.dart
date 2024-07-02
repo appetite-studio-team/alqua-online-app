@@ -3,6 +3,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/components/product_card.dart';
 import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 
 import '../product_detail_screen/product_details_screen.dart';
 
@@ -41,7 +42,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   .getAllProductsByCategoryLoading
               ? Center(
                   child: LoadingAnimationWidget.horizontalRotatingDots(
-                    color: Colors.redAccent,
+                    color: ColorClass.kPrimaryColor,
                     size: 35,
                   ),
                 )

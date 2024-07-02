@@ -107,7 +107,9 @@ class AppwriteCartProvider extends ChangeNotifier {
             data: {
               'productId': product.id.toString(),
               'productName': product.name,
-              'price': double.parse(product.price ?? '0'),
+              // 'price': double.parse(product.price ?? '0'),
+              'price': 0.0, // '0.0' is a placeholder for 'product.price
+
               'quantity': 1,
               'productImage': product.images.isEmpty
                   ? "https://via.placeholder.com/150"

@@ -10,6 +10,7 @@ import 'package:souq_alqua/screens/cart/providers/appwrite_cart_provider.dart';
 import 'package:souq_alqua/screens/cart/providers/cart_provider.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 
 import 'components/product_description.dart';
 import 'components/product_images.dart';
@@ -104,7 +105,7 @@ class ProductDetailsScreen extends StatelessWidget {
       bottomNavigationBar: TopRoundedContainer(
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
           child: Consumer2<LoginProvider, AppwriteCartProvider>(
             builder: (context, loginProvider, awSnap, child) {
               return Row(
@@ -121,7 +122,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     children: [
                       const TextSpan(text: "AED  "),
                       TextSpan(
-                        text: "${product.price..toString()}.00",
+                        text: "${product.price.toString()}.00",
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 22,
@@ -135,10 +136,10 @@ class ProductDetailsScreen extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: Colors.redAccent,
+                        color: ColorClass.kPrimaryColor,
                         boxShadow: const [
                           BoxShadow(
-                            color: Colors.redAccent,
+                            color: ColorClass.kPrimaryColor,
                             blurRadius: 10,
                             spreadRadius: 1,
                           )

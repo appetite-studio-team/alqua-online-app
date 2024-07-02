@@ -4,6 +4,7 @@ import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/screens/product/products/products_screen.dart';
+import 'package:souq_alqua/utils/color_class.dart';
 
 class AllCategoriesScreen extends StatefulWidget {
   const AllCategoriesScreen({super.key});
@@ -25,7 +26,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
         builder: (context, snapshot, child) => snapshot.getAllCategoriesLoading
             ? Center(
                 child: LoadingAnimationWidget.horizontalRotatingDots(
-                  color: Colors.redAccent,
+                  color: ColorClass.kPrimaryColor,
                   size: 35,
                 ),
               )
