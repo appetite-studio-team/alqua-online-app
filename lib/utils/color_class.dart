@@ -10,9 +10,9 @@ class ColorClass {
   static const Color grayColor = Color(0xFF9A9A9A);
   static const Color redColor = Color(0xFFE85050);
   static const Color greenColor = Color(0xFF4CAF50);
-  static const Color yellowColor = Color(0xFFE5F1FF);
-  static const Color lightYellowColor = Color(0xFFE5F1FF);
-  static const Color lightRedColor = Color(0xFFE5F1FF);
+  static const Color blueColor = Color(0xFF2596BE);
+  static const Color yellowColor = Color(0xFFF2C94C);
+  
   static const Color redAccentColor = Color(0xFFE85050);
   static const Color lightGrayColor = Color(0xFFC4C4C4);
   static const Color darkGrayColor = Color(0xFF4F4F4F);

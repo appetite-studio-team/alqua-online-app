@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:souq_alqua/screens/home/screens/service_section/screens/worker_screen.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/image_class.dart';
 import 'package:souq_alqua/utils/style_class.dart';
@@ -9,23 +10,51 @@ class Services extends StatelessWidget {
 // services
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> categories = [
-      {"icon": ImageClass.taxi, "text": "تاكسي"},
-      {"icon": ImageClass.restaurants, "text": "مطعم"},
-      {"icon": ImageClass.supermarket, "text": "سوبرماركت"},
-      {"icon": ImageClass.workerIcon, "text": "عامل"},
+    List<ServiceModel> services = [
+      ServiceModel(
+        icon: ImageClass.taxi,
+        text: 'تاكسي',
+        key: 'taxi',
+      ),
+      ServiceModel(
+        icon: ImageClass.restaurants,
+        text: 'مطعم',
+        key: 'restaurant',
+      ),
+      ServiceModel(
+        icon: ImageClass.supermarket,
+        text: 'سوبرماركت',
+        key: 'supermarket',
+      ),
+      ServiceModel(
+        icon: ImageClass.workerIcon,
+        text: 'عامل',
+        key: 'worker',
+      ),
     ];
+
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(
-          categories.length,
-          (index) => CategoryCard(
-            icon: categories[index]["icon"],
-            text: categories[index]["text"],
-            press: () {},
+          services.length,
+          (index) => ServicesCard(
+            icon: services[index].icon,
+            text: services[index].text,
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AllWorkersScreen(
+                    title: services[index].text,
+                    serviceKey: services[index].key,
+                    serviceIcon: services[index].icon,
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -33,8 +62,8 @@ class Services extends StatelessWidget {
   }
 }
 
-class CategoryCard extends StatelessWidget {
-  const CategoryCard({
+class ServicesCard extends StatelessWidget {
+  const ServicesCard({
     Key? key,
     required this.icon,
     required this.text,
@@ -76,4 +105,16 @@ class CategoryCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class ServiceModel {
+  final String icon;
+  final String key;
+  final String text;
+
+  ServiceModel({
+    required this.icon,
+    required this.key,
+    required this.text,
+  });
 }

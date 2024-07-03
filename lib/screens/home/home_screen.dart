@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/screens/cart/providers/appwrite_cart_provider.dart';
-import 'package:souq_alqua/screens/home/components/services_section.dart';
+import 'package:souq_alqua/screens/home/screens/service_section/services_section.dart';
 import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
 
