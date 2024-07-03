@@ -140,7 +140,7 @@ class LoginProvider extends ChangeNotifier {
       if (kIsWeb) {
         await account.createOAuth2Session(
           provider: OAuthProvider.google,
-          success: 'https://store.souq_alqua.com/auth.html',
+          success: 'https://store.alqua.online/auth.html',
           scopes: ['email', 'profile'],
         );
       } else {
@@ -183,7 +183,7 @@ class LoginProvider extends ChangeNotifier {
       // }
 
       loginScreenAuthLoader = false;
-
+      notifyListeners();
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, InitScreen.routeName);
     } on AppwriteException catch (e) {
