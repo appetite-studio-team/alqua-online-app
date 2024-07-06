@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:souq_alqua/screens/home/components/tabby_banner.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
 
-import 'package:share_plus/share_plus.dart';
+import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
+import 'package:souq_alqua/utils/api_support.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/constants.dart';
 import 'package:souq_alqua/utils/style_class.dart';
@@ -51,16 +54,28 @@ class ProductDescription extends StatelessWidget {
                     bottomLeft: Radius.circular(20),
                   ),
                 ),
-                child: IconButton(
-                  onPressed: () {
-                    Share.share(
-                      'Hey,\n*Check out this product*\n\n${product.name} on Toycar Showroom \n\nShop now 🛒  - ${product.permalink}\n\nDownload the app from Play Store - https://play.google.com/store/apps/details?id=com.souq_alqua\n\n',
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.share,
-                    color: Colors.black,
-                    size: 16,
+                child: Consumer<HomeProvider>(
+                  builder: (context, homeProvider, child) => IconButton(
+                    onPressed: () {
+                      homeProvider.sharePostWithImage(
+                        title: product.name ?? "",
+                        description: product.description == null
+                            ? ""
+                            : product.description!.replaceAll(
+                                RegExp(r'<[^>]*>'),
+                                '',
+                              ),
+                        imageUrl: product.images.isEmpty
+                            ? ApiSupport.networkImagePlaceHolder
+                            : product.images.first.src!,
+                        context: context,
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.share,
+                      color: Colors.black,
+                      size: 16,
+                    ),
                   ),
                 )),
           ],
@@ -82,9 +97,16 @@ class ProductDescription extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
+              const TabbyBanner(),
               RichText(
                 text: TextSpan(
-                  text: "Description",
+                  text: product.description!.replaceAll(
+                            RegExp(r'<[^>]*>'),
+                            '',
+                          ) ==
+                          ''
+                      ? ""
+                      : "Description \n\n",
                   style: const TextStyle(
                     color: kBlackColor,
                     fontSize: 15,

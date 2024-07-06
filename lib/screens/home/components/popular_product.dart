@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
 import 'package:souq_alqua/screens/product/product_detail_screen/product_details_screen.dart';
 
@@ -11,16 +12,19 @@ class PopularProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Consumer<HomeProvider>(
       builder: (context, snapshot, child) => Column(
         children: [
-          const Padding(
+          Padding(
             //"Popular Products",
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SectionTitle(
-              title: "🔥 الأكثر مبيعاً",
+              title: translate('popular_products'),
               press: null,
-              reverseAlign: true,
             ),
           ),
           const SizedBox(height: 10),

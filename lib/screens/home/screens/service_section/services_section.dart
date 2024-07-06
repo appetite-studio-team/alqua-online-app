@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/home/screens/service_section/screens/worker_screen.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/image_class.dart';
-import 'package:souq_alqua/utils/style_class.dart';
 
 class Services extends StatelessWidget {
   const Services({super.key});
 // services
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     List<ServiceModel> services = [
       ServiceModel(
-        icon: ImageClass.taxi,
-        text: 'تاكسي',
-        key: 'taxi',
+        icon: ImageClass.dress,
+        text: translate('dress'),
+        key: 'dress',
       ),
       ServiceModel(
         icon: ImageClass.restaurants,
-        text: 'مطعم',
+        text: translate('restaurant'),
         key: 'restaurant',
       ),
       ServiceModel(
         icon: ImageClass.supermarket,
-        text: 'سوبرماركت',
+        text: translate('supermarket'),
         key: 'supermarket',
       ),
       ServiceModel(
         icon: ImageClass.workerIcon,
-        text: 'عامل',
+        text: translate('Workers'),
         key: 'worker',
       ),
     ];
@@ -96,10 +101,10 @@ class ServicesCard extends StatelessWidget {
                 : Image.asset(icon),
           ),
           const SizedBox(height: 6),
-          Text(
+          CustomText(
             text,
-            style: TextStyleClass.text14GreyAr,
-            textAlign: TextAlign.center,
+            color: ColorClass.grayColor,
+            fontWeight: FontWeight.w600,
           )
         ],
       ),

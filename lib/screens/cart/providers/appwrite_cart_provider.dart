@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:souq_alqua/helper/db_helper.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
-import 'package:souq_alqua/screens/order_screens/delivery_locations/providers/delivery_location_provider.dart';
 
 class AppwriteCartProvider extends ChangeNotifier {
+  // check user login or not return true or false
+
   bool isAddtoCartLoading = false;
   Future<void> addToCart(GetAllProducts product) async {
     try {
@@ -160,7 +160,14 @@ class AppwriteCartProvider extends ChangeNotifier {
 
     final account = Account(client);
     final user = await account.get();
+    // check the user is logged in or not
+    bool isLoggedIn = user.email.isNotEmpty;
 
+    if (!isLoggedIn) {
+      cartLength = 0;
+      notifyListeners();
+      return 0;
+    }
     final database = Databases(client);
     final cartDocs = await database.listDocuments(
       databaseId: DbHelper.orderMngmtDbId,
@@ -422,7 +429,7 @@ class AppwriteCartProvider extends ChangeNotifier {
         notifyListeners();
 
         // Update reward points
-        await updateRewardPointOnOrder(context, allItemsId.length);
+        // await updateRewardPointOnOrder(context, allItemsId.length);
       }
 
       isCartLoading = false;
@@ -434,47 +441,47 @@ class AppwriteCartProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateRewardPointOnOrder(
-      BuildContext context, int rewardPoint) async {
-    final client = Client();
-    client.setEndpoint(DbHelper.dbUrl);
-    client.setProject(DbHelper.projectId);
-    final database = Databases(client);
+  // Future<void> updateRewardPointOnOrder(
+  //     BuildContext context, int rewardPoint) async {
+  //   final client = Client();
+  //   client.setEndpoint(DbHelper.dbUrl);
+  //   client.setProject(DbHelper.projectId);
+  //   final database = Databases(client);
 
-    final account = Account(client);
-    final user = await account.get();
+  //   final account = Account(client);
+  //   final user = await account.get();
 
-    // Fetch current reward points
-    final response = await database.listDocuments(
-      databaseId: DbHelper.orderMngmtDbId,
-      collectionId: DbHelper.userCollectionId,
-      queries: [Query.equal('userId', user.email)],
-    );
+  //   // Fetch current reward points
+  //   final response = await database.listDocuments(
+  //     databaseId: DbHelper.orderMngmtDbId,
+  //     collectionId: DbHelper.userCollectionId,
+  //     queries: [Query.equal('userId', user.email)],
+  //   );
 
-    if (response.documents.isNotEmpty) {
-      var currentRewardPoint =
-          response.documents.first.data['rewardPoint'] ?? '0';
-      currentRewardPoint = currentRewardPoint.toString();
-      double currentPoints = double.tryParse(currentRewardPoint) ?? 0;
+  //   if (response.documents.isNotEmpty) {
+  //     var currentRewardPoint =
+  //         response.documents.first.data['rewardPoint'] ?? '0';
+  //     currentRewardPoint = currentRewardPoint.toString();
+  //     double currentPoints = double.tryParse(currentRewardPoint) ?? 0;
 
-      // Add 2 points
-      double updatedPoints = currentPoints + rewardPoint;
+  //     // Add 2 points
+  //     double updatedPoints = currentPoints + rewardPoint;
 
-      // Update in the database
-      await database.updateDocument(
-        databaseId: DbHelper.orderMngmtDbId,
-        collectionId: DbHelper.userCollectionId,
-        documentId: response.documents.first.data['\$id'],
-        data: {
-          'rewardPoint': updatedPoints.toStringAsFixed(2),
-        },
-      );
-      AddressProvider addressProvider =
-          Provider.of<AddressProvider>(context, listen: false);
-      addressProvider.setRewardPoint = updatedPoints.toStringAsFixed(2);
-      notifyListeners();
-    }
-  }
+  //     // Update in the database
+  //     await database.updateDocument(
+  //       databaseId: DbHelper.orderMngmtDbId,
+  //       collectionId: DbHelper.userCollectionId,
+  //       documentId: response.documents.first.data['\$id'],
+  //       data: {
+  //         'rewardPoint': updatedPoints.toStringAsFixed(2),
+  //       },
+  //     );
+  //     AddressProvider addressProvider =
+  //         Provider.of<AddressProvider>(context, listen: false);
+  //     addressProvider.setRewardPoint = updatedPoints.toStringAsFixed(2);
+  //     notifyListeners();
+  //   }
+  // }
 
   // reduce 2 points on cancel order
 
@@ -512,9 +519,9 @@ class AppwriteCartProvider extends ChangeNotifier {
           'rewardPoint': updatedPoints.toStringAsFixed(2),
         },
       );
-      AddressProvider addressProvider =
-          Provider.of<AddressProvider>(context, listen: false);
-      addressProvider.setRewardPoint = updatedPoints.toStringAsFixed(2);
+      // AddressProvider addressProvider =
+      //     Provider.of<AddressProvider>(context, listen: false);
+      // addressProvider.setRewardPoint = updatedPoints.toStringAsFixed(2);
       notifyListeners();
     }
   }

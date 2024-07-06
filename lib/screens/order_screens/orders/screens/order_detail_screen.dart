@@ -92,18 +92,18 @@ class OrderDetailScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          trailing: Text(
-                            '${item.data['items'][i]['price']}.00 AED',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
+                          // trailing: Text(
+                          //   '${item.data['items'][i]['price']}.00 AED',
+                          //   style: const TextStyle(
+                          //       fontWeight: FontWeight.bold, fontSize: 12),
+                          // ),
                         ),
                       ),
                     const Divider(),
                     // shiping address
                     ListTile(
                       title: const Text(
-                        'Shipping Address',
+                        'Delivery Address',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 12),
                       ),
@@ -196,12 +196,12 @@ class OrderDetailScreen extends StatelessWidget {
                       ),
                     ),
                     const Divider(),
-                    // Shipping fee
-                    ListTile(
-                      title: const Row(
+                    // Delivery fee
+                    const ListTile(
+                      title: Row(
                         children: [
                           Text(
-                            'Shipping Fee',
+                            'Delivery Fee',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 12),
                           ),
@@ -215,17 +215,17 @@ class OrderDetailScreen extends StatelessWidget {
                       ),
                       subtitle: Row(
                         children: [
-                          const Text(
+                          Text(
                             'Total Amount',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 12),
                           ),
-                          const Spacer(),
-                          Text(
-                            '${item.data['items'].fold(0, (prev, item) => prev + item['price'] * item['quantity'])}.00 AED',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
+                          Spacer(),
+                          // Text(
+                          //   '${item.data['items'].fold(0, (prev, item) => prev + item['price'] * item['quantity'])}.00 AED',
+                          //   style: const TextStyle(
+                          //       fontWeight: FontWeight.bold, fontSize: 12),
+                          // ),
                         ],
                       ),
                     ),
@@ -264,8 +264,7 @@ class OrderDetailScreen extends StatelessWidget {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorClass.redAccentColor
-                              ,
+                              backgroundColor: ColorClass.redAccentColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),

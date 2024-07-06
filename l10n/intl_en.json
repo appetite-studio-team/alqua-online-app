@@ -1,0 +1,33 @@
+{
+  "/// profile screen": "profile screen",
+  "profile": "Profile",
+  "login_profile" : "Login to your account",
+  "login": "Login",
+  "contact_us": "Contact Us",
+  "change_language": "Change Language",
+  "my_cart": "My Cart",
+  "my_orders": "My Orders",
+  "delivery_address": "Delivery Address",
+  "faq": "Frequently Asked Questions",
+  "whatsapp_support": "Whatsapp Support",
+  "delete_account": "Delete Account",
+  "delete_confirm": "Are you sure you want to delete your account?",
+  "Cancel" : "Cancel",
+  "Delete" : "Delete",
+  "logout": "Logout",
+  "logout_confirm": "Are you sure you want to logout?",
+  "version": "Version",
+
+  "/// home screen": "home screen",
+  "search_products": "Search Products",
+  "dress": "Dress",
+  "restaurant": "Restaurant",
+  "supermarket": "Supermarket",
+  "Workers": "Workers",
+  "shop_by_category": "Shop by Category",
+  "see_more" : "See More",
+  "popular_products" : "🔥 Popular Products",
+  "products": "Products",
+  "products_not_found": "Product not found"
+  }
+  

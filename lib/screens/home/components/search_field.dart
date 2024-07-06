@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/home/components/search_screen.dart';
 
 import 'package:souq_alqua/utils/constants.dart';
@@ -11,6 +12,10 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Form(
       child: TextFormField(
         onTap: () {
@@ -31,7 +36,8 @@ class SearchField extends StatelessWidget {
 
           /// Search products
 
-          hintText: "البحث عن المنتجات",
+          hintText: translate('search_products'),
+          
           hintStyle: TextStyleClass.text14GreyAr,
           prefixIcon: const Icon(Icons.search),
         ),

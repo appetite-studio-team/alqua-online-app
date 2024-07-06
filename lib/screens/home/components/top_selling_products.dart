@@ -28,7 +28,7 @@ class TopSellingProducts extends StatelessWidget {
 
                   child: SectionTitle(
                     title: "🔥 الأكثر مبيعاً",
-                    reverseAlign: true,
+                   
                     press: null,
                   ),
                 ),

@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/home/screens/all_categories_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
 import 'package:souq_alqua/screens/product/products/products_screen.dart';
+import 'package:souq_alqua/utils/api_support.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 
 import 'section_title.dart';
@@ -16,6 +18,10 @@ class CategoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Consumer<HomeProvider>(
       builder: (context, snapshot, child) => snapshot.getAllCategoriesLoading
           ? Center(
@@ -30,8 +36,7 @@ class CategoryView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SectionTitle(
                     // shop by category
-                    title: "تسوق حسب الفئات",
-                    reverseAlign: true,
+                    title: translate('shop_by_category'),
                     press: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
@@ -50,10 +55,11 @@ class CategoryView extends StatelessWidget {
                               ? const SizedBox.shrink()
                               : SpecialOfferCard(
                                   image: e.image == null
-                                      ? "https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
-                                      : e.image!.src!,
+                                      ? ApiSupport.networkImagePlaceHolder
+                                      : e.image!.src ??
+                                          ApiSupport.networkImagePlaceHolder,
                                   category: e.name ?? "",
-                                  numOfBrands: 18,
+                                  numOfBrands: 0,
                                   press: () {
                                     Navigator.push(
                                       context,

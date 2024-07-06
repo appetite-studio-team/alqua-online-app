@@ -1,0 +1,33 @@
+{
+    "/// profile screen": "profile screen",
+    "profile": "الملف الشخصي",
+    "login_profile" : "تسجيل الدخول إلى حسابك",
+    "login": "تسجيل الدخول",
+    "contact_us": "اتصل بنا",
+    "change_language": "تغيير اللغة",
+    "my_cart": "عربة التسوق",
+    "my_orders": "طلباتي",
+    "delivery_address": "عنوان التوصيل",
+    "faq": "الأسئلة الشائعة",
+    "whatsapp_support": "الدعم عبر الواتساب",
+    "delete_account": "حذف الحساب",
+    "delete_confirm": "هل أنت متأكد أنك تريد حذف حسابك؟",
+    "Cancel" : "إلغاء",
+    "Delete" : "حذف",
+    "logout": "تسجيل الخروج",
+    "logout_confirm": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "version": "الإصدار",
+
+    "/// home screen": "home screen",
+    "search_products": "ابحث عن المنتجات",
+    "dress": "فستان",
+    "restaurant": "مطعم",
+    "supermarket": "سوبر ماركت",
+    "Workers": "عمال",
+    "shop_by_category":  "تسوق حسب الفئات",
+    "see_more" : "المزيد",
+    "popular_products": "🔥 الأكثر مبيعاً",
+    "products": "المنتجات",
+    "products_not_found": "المنتج غير موجود"
+  }
+  

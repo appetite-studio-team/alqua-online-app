@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io' as io;
 // import 'package:firebase_auth/firebase_auth.dart';
+import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:souq_alqua/helper/db_helper.dart';
 import 'package:souq_alqua/utils/api_support.dart';
 import 'package:souq_alqua/screens/home/models/category_model.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
@@ -11,16 +16,37 @@ import 'package:souq_alqua/screens/home/models/products_model.dart';
 String? firebaseUserNumber;
 
 class HomeProvider extends ChangeNotifier {
-// get Firebase logged in user
-  // void getFirebaseUser() {
-  //   if (FirebaseAuth.instance.currentUser != null) {
-  //     firebaseUserNumber = FirebaseAuth.instance.currentUser!.email.toString();
-  //     log("firebaseUserNumber: $firebaseUserNumber");
-  //     notifyListeners();
-  //   }
-  // }
+  bool homeBannerLoading = false;
 
-  /// Get all categories
+  List<Document> homeBannerList = [];
+
+  Future<void> getHomeBanner() async {
+    try {
+      homeBannerLoading = true;
+      notifyListeners();
+      final client = Client()
+          .setEndpoint(DbHelper.dbUrl)
+          .setProject(DbHelper.projectId)
+          .setSelfSigned(status: true);
+      final database = Databases(client);
+      final response = await database.listDocuments(
+        databaseId: DbHelper.appMngmtDbId,
+        collectionId: DbHelper.homeBannerCollectionId,
+      );
+      homeBannerList = response.documents;
+      homeBannerLoading = false;
+      log("Home Banner fetched successfully", name: "HomeProvider");
+      notifyListeners();
+    } on AppwriteException catch (e) {
+      log(e.toString(), name: "error in getHomeBanner");
+      homeBannerLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // get image url from appwrite
+  String getImageUrl({required String image}) =>
+      '${DbHelper.dbUrl}/storage/buckets/${DbHelper.homeBannerBucketId}/files/$image/view?project=${DbHelper.projectId}';
 
   bool getAllCategoriesLoading = false;
 
@@ -34,12 +60,17 @@ class HomeProvider extends ChangeNotifier {
           'Basic ${base64Encode(utf8.encode('${ApiSupport.consumerKey}:${ApiSupport.consumerSecret}'))}',
     };
 
-    Response response = await http.get(url, headers: headers);
+    http.Response response = await http.get(url, headers: headers);
 
     log(url.toString());
     log(response.body);
     if (response.statusCode == 200) {
-      allCategories = getAllCategoriesFromJson(response.body);
+      List<GetAllCategories> categoryList = [];
+      categoryList = getAllCategoriesFromJson(response.body);
+      // filter categories with count > 0
+      allCategories =
+          categoryList.where((element) => element.count! > 0).toList();
+
       getAllCategoriesLoading = false;
 
       notifyListeners();
@@ -67,7 +98,7 @@ class HomeProvider extends ChangeNotifier {
           'Basic ${base64Encode(utf8.encode('${ApiSupport.consumerKey}:${ApiSupport.consumerSecret}'))}',
     };
 
-    Response response = await http.get(url, headers: headers);
+    http.Response response = await http.get(url, headers: headers);
 
     log(url.toString());
     log(response.body);
@@ -101,7 +132,7 @@ class HomeProvider extends ChangeNotifier {
           'Basic ${base64Encode(utf8.encode('${ApiSupport.consumerKey}:${ApiSupport.consumerSecret}'))}',
     };
 
-    Response response = await http.get(url, headers: headers);
+    http.Response response = await http.get(url, headers: headers);
 
     log(url.toString());
     log(response.body);
@@ -141,7 +172,7 @@ class HomeProvider extends ChangeNotifier {
           'Basic ${base64Encode(utf8.encode('${ApiSupport.consumerKey}:${ApiSupport.consumerSecret}'))}',
     };
 
-    Response response = await http.get(url, headers: headers);
+    http.Response response = await http.get(url, headers: headers);
 
     log(url.toString());
     log(response.body);
@@ -231,5 +262,29 @@ class HomeProvider extends ChangeNotifier {
       _isTopSellingLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<io.File> _downloadImage(String url, String filename) async {
+    final response = await http.get(Uri.parse(url));
+    final documentDirectory = await getTemporaryDirectory();
+    final file = io.File('${documentDirectory.path}/$filename');
+    file.writeAsBytesSync(response.bodyBytes);
+    return file;
+  }
+
+  // share post with image
+  Future<void> sharePostWithImage({
+    required String title,
+    required String description,
+    required BuildContext context,
+    required String imageUrl,
+  }) async {
+    final io.File imageFile = await _downloadImage(imageUrl, 'souq alqua.png');
+
+    Share.shareXFiles(
+      [XFile(imageFile.path)],
+      text:
+          "$title\n\n $description\n\nSouq Alqua: Alqua's own online market 📢\n\nDownload the app now\n https://play.google.com/store/apps/details?id=online.alqua.app\n\n",
+    );
   }
 }

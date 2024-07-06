@@ -180,6 +180,7 @@ class _AllWorkersScreenState extends State<AllWorkersScreen> {
                                               serviceType: snapshot
                                                   .serviceWorkers[index]
                                                   .serviceType,
+                                              context: context,
                                               activity: "map")
                                           .then(
                                             (value) => snapshot.launchUrlMap(
@@ -223,6 +224,7 @@ class _AllWorkersScreenState extends State<AllWorkersScreen> {
                                               serviceType: snapshot
                                                   .serviceWorkers[index]
                                                   .serviceType,
+                                              context: context,
                                               activity: "call")
                                           .then(
                                             (value) => snapshot.launchPhoneUrls(

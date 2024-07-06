@@ -16,14 +16,17 @@ class AddressProvider extends ChangeNotifier {
   String? userEmailId;
 
   Future<void> fetchUserEmail() async {
-    final account = Account(_client);
+    final client = Client();
+    client.setEndpoint(DbHelper.dbUrl);
+    client.setProject(DbHelper.projectId);
+    final account = Account(client);
     final user = await account.get();
     final userEmail = user.email;
     userEmailId = userEmail;
     log(userEmailId.toString(), name: "userEmailId");
     if (userEmailId != null) {
       fetchCountries();
-      fetchRewardPoint();
+      // fetchRewardPoint();
     }
     notifyListeners();
   }
@@ -239,50 +242,50 @@ class AddressProvider extends ChangeNotifier {
     }).toList();
   }
 
-  String? rewardPoint;
-  set setRewardPoint(String? value) {
-    rewardPoint = value;
-    notifyListeners();
-  }
+  // String? rewardPoint;
+  // set setRewardPoint(String? value) {
+  //   rewardPoint = value;
+  //   notifyListeners();
+  // }
 
-  Future<void> fetchRewardPoint() async {
-    final client = Client();
-    client.setEndpoint(DbHelper.dbUrl);
-    client.setProject(DbHelper.projectId);
-    final database = Databases(client);
+  // Future<void> fetchRewardPoint() async {
+  //   final client = Client();
+  //   client.setEndpoint(DbHelper.dbUrl);
+  //   client.setProject(DbHelper.projectId);
+  //   final database = Databases(client);
 
-    final response = await database.listDocuments(
-      databaseId: DbHelper.orderMngmtDbId,
-      collectionId: DbHelper.userCollectionId,
-      queries: [Query.equal('userId', userEmailId)],
-    );
+  //   final response = await database.listDocuments(
+  //     databaseId: DbHelper.orderMngmtDbId,
+  //     collectionId: DbHelper.userCollectionId,
+  //     queries: [Query.equal('userId', userEmailId)],
+  //   );
 
-    if (response.documents.isNotEmpty) {
-      rewardPoint = response.documents.first.data['rewardPoint'];
-      if (rewardPoint != null) {
-        rewardPoint = rewardPoint.toString();
-        log(rewardPoint.toString(), name: "rewardPoint found");
-        notifyListeners();
-      } else {
-        rewardPoint = '0';
-        // Update the reward point to 0
-        await database.updateDocument(
-          databaseId: DbHelper.orderMngmtDbId,
-          collectionId: DbHelper.userCollectionId,
-          documentId: response.documents.first.data['\$id'],
-          data: {
-            'rewardPoint': "0.00",
-          },
-        );
-        log("No reward point found", name: "rewardPoint");
-        notifyListeners();
-      }
-    } else {
-      rewardPoint = '0.00';
-    }
+  //   if (response.documents.isNotEmpty) {
+  //     rewardPoint = response.documents.first.data['rewardPoint'];
+  //     if (rewardPoint != null) {
+  //       rewardPoint = rewardPoint.toString();
+  //       log(rewardPoint.toString(), name: "rewardPoint found");
+  //       notifyListeners();
+  //     } else {
+  //       rewardPoint = '0';
+  //       // Update the reward point to 0
+  //       await database.updateDocument(
+  //         databaseId: DbHelper.orderMngmtDbId,
+  //         collectionId: DbHelper.userCollectionId,
+  //         documentId: response.documents.first.data['\$id'],
+  //         data: {
+  //           'rewardPoint': "0.00",
+  //         },
+  //       );
+  //       log("No reward point found", name: "rewardPoint");
+  //       notifyListeners();
+  //     }
+  //   } else {
+  //     rewardPoint = '0.00';
+  //   }
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
   Future<void> selectOrUpdateCountry(String countryName) async {
     try {

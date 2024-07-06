@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
+import 'package:souq_alqua/utils/api_support.dart';
 
 import 'package:souq_alqua/utils/constants.dart';
 
@@ -25,7 +26,7 @@ class _ProductImagesState extends State<ProductImages> {
         AspectRatio(
           aspectRatio: 1,
           child: Image.network(widget.product.images.isEmpty
-              ? "https://webstoresl.s3.ap-southeast-1.amazonaws.com/webstore/product-images/no-product-image.png"
+              ? ApiSupport.networkImagePlaceHolder
               : widget.product.images[selectedImage].src!),
         ),
         const SizedBox(height: 20),
@@ -42,8 +43,9 @@ class _ProductImagesState extends State<ProductImages> {
                   });
                 },
                 image: widget.product.images.isEmpty
-                    ? "https://webstoresl.s3.ap-southeast-1.amazonaws.com/webstore/product-images/no-product-image.png"
-                    : widget.product.images[index].src!,
+                    ? ApiSupport.networkImagePlaceHolder
+                    : widget.product.images[index].src ??
+                        ApiSupport.networkImagePlaceHolder,
               ),
             ),
           ],

@@ -21,19 +21,47 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> checkUserLogin() async {
+    final client = Client()
+        .setEndpoint(DbHelper.dbUrl)
+        .setProject(DbHelper.projectId)
+        .setSelfSigned(status: true);
+
+    final account = Account(client);
+
+    try {
+      // Attempt to retrieve the current user session
+      Session session = await account.getSession(sessionId: 'current');
+      if (session.userId.isNotEmpty) {
+        log('User ID: ${session.userId}', name: 'User Session');
+        log('User is successfully logged in.', name: 'Authentication Status');
+        updateGuestLogin = false;
+        // If a session is found and the user ID is not empty, the user is logged in
+        return true;
+      } else {
+        log('No active login session found.', name: 'Authentication Status');
+        updateGuestLogin = true;
+        return false;
+      }
+    } catch (e) {
+      log('Error retrieving user session: $e', name: 'Authentication Error');
+      log('User is not logged in.', name: 'Authentication Status');
+      updateGuestLogin = true;
+      // If any error occurs, assume the user is not logged in
+      return false;
+    }
+  }
+
   String? userId;
   String? userName;
   String? emailId;
-  String? photoURL;
 
   Future<void> getPreference() async {
     final prefs = await SharedPreferences.getInstance();
     userId = prefs.getString('userId');
     userName = prefs.getString('name');
     emailId = prefs.getString('email');
-    // photoURL = "https://tse3.mm.bing.net/th/id/OIG3.KkLDg6bOkvP_3JDIWpZe?pid";
-    photoURL =
-        "https://tse4.mm.bing.net/th/id/OIG2.lc8mxyreWoiNYxYQh_xa?pid=ImgGn";
+
     notifyListeners();
   }
 
@@ -140,7 +168,7 @@ class LoginProvider extends ChangeNotifier {
       if (kIsWeb) {
         await account.createOAuth2Session(
           provider: OAuthProvider.google,
-          success: 'https://store.alqua.online/auth.html',
+          success: 'https://app.alqua.online/auth.html',
           scopes: ['email', 'profile'],
         );
       } else {
@@ -194,18 +222,25 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future<void> logoutFn({required BuildContext context}) async {
-    final client = Client()
-        .setEndpoint(DbHelper.dbUrl)
-        .setProject(DbHelper.projectId)
-        .setSelfSigned(status: true); // Your project ID
+    try {
+      final client = Client()
+          .setEndpoint(DbHelper.dbUrl)
+          .setProject(DbHelper.projectId)
+          .setSelfSigned(status: true); // Your project ID
+      final account = Account(client);
 
-    final account = Account(client);
-    account.deleteSession(sessionId: 'current').then((value) {
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) {
-        return const SignInScreen();
-      }), (route) => false);
-    });
+      await account.deleteSession(sessionId: 'current');
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      log('User logged out successfully');
+
+      updateGuestLogin = true;
+      notifyListeners();
+      Navigator.pushNamed(context, InitScreen.routeName);
+    } catch (e) {
+      log(e.toString(), name: 'error');
+    }
   }
 
   /// delete account function
@@ -233,12 +268,42 @@ class LoginProvider extends ChangeNotifier {
             documentId: element.data['\$id'],
           );
         });
+
+        // delete all the orders of the user
+        final response1 = await database.listDocuments(
+          databaseId: DbHelper.orderMngmtDbId,
+          collectionId: DbHelper.ordersCollectionId,
+          queries: [Query.equal('userId', emailId)],
+        );
+        response1.documents.forEach((element) async {
+          await database.deleteDocument(
+            databaseId: DbHelper.orderMngmtDbId,
+            collectionId: DbHelper.ordersCollectionId,
+            documentId: element.data['\$id'],
+          );
+        });
+
+        // delete all the cart items of the user
+        final response2 = await database.listDocuments(
+          databaseId: DbHelper.orderMngmtDbId,
+          collectionId: DbHelper.cartCollectionId,
+          queries: [Query.equal('userId', emailId)],
+        );
+        response2.documents.forEach((element) async {
+          await database.deleteDocument(
+            databaseId: DbHelper.orderMngmtDbId,
+            collectionId: DbHelper.cartCollectionId,
+            documentId: element.data['\$id'],
+          );
+        });
+
         notifyListeners();
 
         SharedPreferences.getInstance().then((prefs) {
           prefs.clear();
         });
       });
+      log('Account deleted successfully');
 
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) {

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
+import 'package:souq_alqua/utils/api_support.dart';
 import 'package:souq_alqua/utils/constants.dart';
 import 'package:souq_alqua/utils/image_class.dart';
 
@@ -53,17 +54,17 @@ class ProductByCategoryCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "AED ${product.price}",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: kPrimaryColor,
-                  ),
-                ),
+                // Text(
+                //   "AED ${product.price}",
+                //   style: const TextStyle(
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.w600,
+                //     color: kPrimaryColor,
+                //   ),
+                // ),
                 // InkWell(
                 //   borderRadius: BorderRadius.circular(50),
                 //   onTap: () {},
@@ -135,17 +136,17 @@ class ProductCard extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
               maxLines: 2,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "AED ${product.price}",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: kPrimaryColor,
-                  ),
-                ),
+                // Text(
+                //   "AED ${product.price}",
+                //   style: const TextStyle(
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.w600,
+                //     color: kPrimaryColor,
+                //   ),
+                // ),
                 // InkWell(
                 //   borderRadius: BorderRadius.circular(50),
                 //   onTap: () {},
@@ -212,9 +213,9 @@ class DynamicProductCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   width: 242,
                   imageUrl: product.images.isEmpty
-                      ? "https://webstoresl.s3.ap-southeast-1.amazonaws.com/webstore/product-images/no-product-image.png"
+                      ? ApiSupport.networkImagePlaceHolder
                       : product.images.first.src ??
-                          "https://webstoresl.s3.ap-southeast-1.amazonaws.com/webstore/product-images/no-product-image.png",
+                          ApiSupport.networkImagePlaceHolder,
                 ),
               ),
             ),
@@ -227,37 +228,20 @@ class DynamicProductCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "${product.price}.00 AED",
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: kPrimaryColor,
-                  ),
-                ),
-                // InkWell(
-                //   borderRadius: BorderRadius.circular(50),
-                //   onTap: () {},
-                //   child: Container(
-                //     padding: const EdgeInsets.all(6),
-                //     height: 24,
-                //     width: 24,
-                //     decoration: BoxDecoration(
-                //       color: kSecondaryColor.withOpacity(0.1),
-                //       shape: BoxShape.circle,
-                //     ),
-                //     child: SvgPicture.asset(
-                //       "assets/icons/Heart Icon_2.svg",
-                //       colorFilter: const ColorFilter.mode(
-                //           Color(0xFFDBDEE4), BlendMode.srcIn),
-                //     ),
-                //   ),
-                // ),
-              ],
-            )
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       "${product.price}.00 AED",
+            //       style: const TextStyle(
+            //         fontSize: 12,
+            //         fontWeight: FontWeight.w600,
+            //         color: kPrimaryColor,
+            //       ),
+            //     ),
+
+            //   ],
+            // )
           ],
         ),
       ),

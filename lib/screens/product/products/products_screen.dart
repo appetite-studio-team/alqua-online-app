@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/components/product_card.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 
@@ -29,10 +31,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Products",
+          translate('products'),
           style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
@@ -49,8 +55,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
               :
               // set no data found
               snapshot.allProductsByCategory.isEmpty
-                  ? const Center(
-                      child: Text("No products found"),
+                  ? Center(
+                      child: CustomText(
+                        translate(
+                          'products_not_found',
+                        ),
+                        fontSize: 16,
+                      ),
                     )
                   : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -60,7 +71,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             const SliverGridDelegateWithMaxCrossAxisExtent(
                           maxCrossAxisExtent: 200,
                           childAspectRatio: 0.7,
-                          mainAxisSpacing: 20,
+                          mainAxisSpacing: 10,
                           crossAxisSpacing: 16,
                         ),
                         itemBuilder: (context, index) => DynamicProductCard(

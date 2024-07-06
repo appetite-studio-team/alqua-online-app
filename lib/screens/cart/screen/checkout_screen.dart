@@ -88,7 +88,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     children: [
                       Image.asset(ImageClass.loginIcon, height: 110),
                       Text(
-                        "Ready to roll?\n Log in to make these cars yours",
+                        "Ready to roll?\n Log in to make these yours",
                         style: Theme.of(context).textTheme.titleMedium,
                         textAlign: TextAlign.center,
                       ),
@@ -124,7 +124,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    ImageClass.toyCart,
+                                    ImageClass.emptyCart,
                                     height: 70,
                                   ),
                                   const SizedBox(height: 10),
@@ -229,17 +229,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   maxLines: 2,
                                                 ),
                                                 const SizedBox(height: 8),
-                                                Text(
-                                                  '${cartProvider.productList[index]['quantity']} x AED ${(cartProvider.productList[index]['price']) * cartProvider.productList[index]['quantity']}.00',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .copyWith(
-                                                        color: kPrimaryColor,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                ),
+                                                // Text(
+                                                //   '${cartProvider.productList[index]['quantity']} x AED ${(cartProvider.productList[index]['price']) * cartProvider.productList[index]['quantity']}.00',
+                                                //   style: Theme.of(context)
+                                                //       .textTheme
+                                                //       .bodyMedium!
+                                                //       .copyWith(
+                                                //         color: kPrimaryColor,
+                                                //         fontWeight:
+                                                //             FontWeight.bold,
+                                                //       ),
+                                                // ),
                                               ],
                                             ),
                                           )
@@ -273,21 +273,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  DateFormat('MMMM dd yyyy').format(
-                                    DateTime.now().add(
-                                      const Duration(days: 3),
-                                    ),
-                                  ),
+                                  DateFormat('MMMM dd yyyy')
+                                      .format(DateTime.now()),
                                   style: const TextStyle(fontSize: 12),
                                 ),
                               ),
 
-                              /// Shipping Address
+                              /// Delivery Address
                               Consumer<AddressProvider>(
                                 builder: (context, addressProvider, child) =>
                                     ListTile(
                                   title: const Text(
-                                    'Shipping Address',
+                                    'Delivery Address',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12),
@@ -333,129 +330,130 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               ),
 
                               // Coupon Code / Gift Card
-                              ListTile(
-                                title: const Text(
-                                  'Coupon Code / Gift Card',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                leading: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF5F6F9),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: const Icon(
-                                    Icons.card_giftcard,
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
-                                subtitle: const Text(
-                                  'Add a coupon code or gift card',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                trailing:
-                                    // icon button with bottom sheet dialog for coupon code
-                                    IconButton(
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          final textController =
-                                              TextEditingController();
-                                          return Padding(
-                                            padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom, // Adjusts for the keyboard
-                                            ),
-                                            child: SingleChildScrollView(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(20),
-                                                child: Column(
-                                                  children: [
-                                                    const Text(
-                                                      'Add Coupon Code',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16),
-                                                    ),
-                                                    const SizedBox(height: 10),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child:
-                                                          AddressCustomTextField(
-                                                        textController:
-                                                            textController,
-                                                        hintText:
-                                                            'Enter Coupon Code',
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 10),
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        //  show snackbar as feature not implemented
-                                                        floatingSnackBar(
-                                                            message:
-                                                                'Feature not available yet!',
-                                                            context: context);
+                              // ListTile(
+                              //   title: const Text(
+                              //     'Coupon Code / Gift Card',
+                              //     style: TextStyle(
+                              //         fontWeight: FontWeight.bold,
+                              //         fontSize: 12),
+                              //   ),
+                              //   leading: Container(
+                              //     padding: const EdgeInsets.all(10),
+                              //     height: 40,
+                              //     width: 40,
+                              //     decoration: BoxDecoration(
+                              //       color: const Color(0xFFF5F6F9),
+                              //       borderRadius: BorderRadius.circular(10),
+                              //     ),
+                              //     child: const Icon(
+                              //       Icons.card_giftcard,
+                              //       color: kPrimaryColor,
+                              //     ),
+                              //   ),
+                              //   subtitle: const Text(
+                              //     'Add a coupon code or gift card',
+                              //     style: TextStyle(fontSize: 12),
+                              //   ),
+                              //   trailing:
+                              //       // icon button with bottom sheet dialog for coupon code
+                              //       IconButton(
+                              //     onPressed: () {
+                              //       showModalBottomSheet(
+                              //           context: context,
+                              //           builder: (context) {
+                              //             final textController =
+                              //                 TextEditingController();
+                              //             return Padding(
+                              //               padding: EdgeInsets.only(
+                              //                 bottom: MediaQuery.of(context)
+                              //                     .viewInsets
+                              //                     .bottom, // Adjusts for the keyboard
+                              //               ),
+                              //               child: SingleChildScrollView(
+                              //                 child: Container(
+                              //                   padding:
+                              //                       const EdgeInsets.all(20),
+                              //                   child: Column(
+                              //                     children: [
+                              //                       const Text(
+                              //                         'Add Coupon Code',
+                              //                         style: TextStyle(
+                              //                             fontWeight:
+                              //                                 FontWeight.bold,
+                              //                             fontSize: 16),
+                              //                       ),
+                              //                       const SizedBox(height: 10),
+                              //                       Padding(
+                              //                         padding:
+                              //                             const EdgeInsets.all(
+                              //                                 8.0),
+                              //                         child:
+                              //                             AddressCustomTextField(
+                              //                           textController:
+                              //                               textController,
+                              //                           hintText:
+                              //                               'Enter Coupon Code',
+                              //                         ),
+                              //                       ),
+                              //                       const SizedBox(height: 10),
+                              //                       ElevatedButton(
+                              //                         onPressed: () {
+                              //                           //  show snackbar as feature not implemented
+                              //                           floatingSnackBar(
+                              //                               message:
+                              //                                   'Feature not available yet!',
+                              //                               context: context);
 
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child:
-                                                          const Text('Apply'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 15,
-                                  ),
-                                ),
-                              ),
+                              //                           Navigator.pop(context);
+                              //                         },
+                              //                         child:
+                              //                             const Text('Apply'),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             );
+                              //           });
+                              //     },
+                              //     icon: const Icon(
+                              //       Icons.arrow_forward_ios,
+                              //       size: 15,
+                              //     ),
+                              //   ),
+                              // ),
 
                               // Payment Method
-                              ListTile(
-                                title: const Text(
-                                  'Payment Method',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                leading: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF5F6F9),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: const Icon(
-                                    Icons.payment,
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
-                                subtitle: const Text(
-                                  'Cash on Delivery',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ),
+                              // ListTile(
+                              //   title: const Text(
+                              //     'Payment Method',
+                              //     style: TextStyle(
+                              //         fontWeight: FontWeight.bold,
+                              //         fontSize: 12),
+                              //   ),
+                              //   leading: Container(
+                              //     padding: const EdgeInsets.all(10),
+                              //     height: 40,
+                              //     width: 40,
+                              //     decoration: BoxDecoration(
+                              //       color: const Color(0xFFF5F6F9),
+                              //       borderRadius: BorderRadius.circular(10),
+                              //     ),
+                              //     child: const Icon(
+                              //       Icons.payment,
+                              //       color: kPrimaryColor,
+                              //     ),
+                              //   ),
+                              //   subtitle: const Text(
+                              //     'Cash on Delivery',
+                              //     style: TextStyle(fontSize: 12),
+                              //   ),
+                              // ),
+
                               // Shiping fee
                               ListTile(
                                 title: const Text(
-                                  'Shipping Fee',
+                                  'Delivery Fee',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12),
@@ -481,33 +479,33 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 ),
                               ),
                               // Total Amount
-                              ListTile(
-                                title: const Text(
-                                  'Total Amount',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                leading: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF5F6F9),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: const Icon(
-                                    Icons.monetization_on,
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  'AED ${(cartProvider.productList.fold(0, (prev, item) => prev + (item['price'] * item['quantity'] as int))).toString()}.00',
-                                  style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
+                              // ListTile(
+                              //   title: const Text(
+                              //     'Total Amount',
+                              //     style: TextStyle(
+                              //         fontWeight: FontWeight.bold,
+                              //         fontSize: 12),
+                              //   ),
+                              //   leading: Container(
+                              //     padding: const EdgeInsets.all(10),
+                              //     height: 40,
+                              //     width: 40,
+                              //     decoration: BoxDecoration(
+                              //       color: const Color(0xFFF5F6F9),
+                              //       borderRadius: BorderRadius.circular(10),
+                              //     ),
+                              //     child: const Icon(
+                              //       Icons.monetization_on,
+                              //       color: kPrimaryColor,
+                              //     ),
+                              //   ),
+                              //   subtitle: Text(
+                              //     'AED ${(cartProvider.productList.fold(0, (prev, item) => prev + (item['price'] * item['quantity'] as int))).toString()}.00',
+                              //     style: const TextStyle(
+                              //         fontSize: 12,
+                              //         fontWeight: FontWeight.bold),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),

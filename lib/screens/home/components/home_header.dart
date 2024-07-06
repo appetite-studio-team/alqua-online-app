@@ -13,6 +13,7 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -25,6 +26,7 @@ class HomeHeader extends StatelessWidget {
                 svgSrc: "assets/icons/Cart Icon.svg",
                 numOfitem: value.cartLength,
                 press: () {
+                  
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const CartScreen()),

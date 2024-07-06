@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
 
 import 'package:souq_alqua/utils/constants.dart';
 
@@ -45,7 +46,12 @@ class ProfileMenu extends StatelessWidget {
               ),
 
             const SizedBox(width: 20),
-            Expanded(child: Text(text)),
+            Expanded(
+              child: CustomText(
+                text,
+                fontSize: 16,
+              ),
+            ),
             const Icon(Icons.arrow_forward_ios),
           ],
         ),

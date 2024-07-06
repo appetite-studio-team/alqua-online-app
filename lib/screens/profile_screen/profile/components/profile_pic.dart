@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
+import 'package:souq_alqua/utils/image_class.dart';
 
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
@@ -17,9 +18,9 @@ class ProfilePic extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Consumer<LoginProvider>(
-            builder: (context, value, child) => CircleAvatar(
-              backgroundImage: NetworkImage(value.photoURL ??
-                  "https://tse2.mm.bing.net/th/id/OIG1.ZpRhr_xQNYO3SF23JNjx?pid=ImgGn"),
+            builder: (context, value, child) => const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              backgroundImage: AssetImage(ImageClass.arabMen),
             ),
           ),
 

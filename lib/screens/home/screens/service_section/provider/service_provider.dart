@@ -2,14 +2,12 @@ import 'dart:developer';
 
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:souq_alqua/helper/db_helper.dart';
+import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ServiceProvider extends ChangeNotifier {
-  final Client _client;
-
-  ServiceProvider(this._client);
-
   List<WorkersModel> _serviceWorkers = [];
 
   List<WorkersModel> get serviceWorkers => _serviceWorkers;
@@ -18,9 +16,12 @@ class ServiceProvider extends ChangeNotifier {
 
   Future<void> fetchWorkers({required String serviceType}) async {
     try {
+      final client = Client();
+      client.setEndpoint(DbHelper.dbUrl);
+      client.setProject(DbHelper.projectId);
       fetchWorkersLoading = true;
       notifyListeners();
-      final database = Databases(_client);
+      final database = Databases(client);
       final response = await database.listDocuments(
         databaseId: DbHelper.serviceMngmtDbId,
         collectionId: DbHelper.serviceCollectionId,
@@ -71,26 +72,50 @@ class ServiceProvider extends ChangeNotifier {
     required String serviceProviderPh,
     required String serviceType,
     required String activity,
+    required BuildContext context,
   }) async {
     try {
-      // account
-      final account = Account(_client);
-      final user = await account.get();
-      String userId = user.email;
-      final database = Databases(_client);
-      final response = await database.createDocument(
-        databaseId: DbHelper.serviceMngmtDbId,
-        collectionId: DbHelper.serviceActivity,
-        documentId: ID.unique(),
-        data: {
-          "user": userId,
-          "service": serviceType,
-          "service-provider": serviceProvider,
-          "service-provider-ph": serviceProviderPh,
-          "activity": activity,
-        },
-      );
-      log(response.toString(), name: "activity");
+      final client = Client();
+      client.setEndpoint(DbHelper.dbUrl);
+      client.setProject(DbHelper.projectId);
+      LoginProvider loginProvider =
+          Provider.of<LoginProvider>(context, listen: false);
+      if (loginProvider.isGuestLogin) {
+        final database = Databases(client);
+        final response = await database.createDocument(
+          databaseId: DbHelper.serviceMngmtDbId,
+          collectionId: DbHelper.serviceActivity,
+          documentId: ID.unique(),
+          data: {
+            "user": 'Guest',
+            "service": serviceType,
+            "service-provider": serviceProvider,
+            "service-provider-ph": serviceProviderPh,
+            "activity": activity,
+          },
+        );
+        log('Guest Activity created', name: "activity");
+        log(response.toString(), name: "activity");
+      } else {
+        // account
+        final account = Account(client);
+        final user = await account.get();
+        String userId = user.email;
+        final database = Databases(client);
+        final response = await database.createDocument(
+          databaseId: DbHelper.serviceMngmtDbId,
+          collectionId: DbHelper.serviceActivity,
+          documentId: ID.unique(),
+          data: {
+            "user": userId,
+            "service": serviceType,
+            "service-provider": serviceProvider,
+            "service-provider-ph": serviceProviderPh,
+            "activity": activity,
+          },
+        );
+        log(response.toString(), name: "activity");
+      }
     } on AppwriteException catch (e) {
       log(e.message.toString(), name: "error");
       log(e.toString(), name: "error");

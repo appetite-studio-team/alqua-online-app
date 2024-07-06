@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:souq_alqua/screens/home/init_screen.dart';
 import 'package:souq_alqua/utils/image_class.dart';
-
-import '../sign_in/sign_in_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static String routeName = "/splash";
@@ -20,21 +17,25 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) {
+        return const InitScreen();
+      }), (route) => false);
       // check if user is logged in or not with shared preference
-      SharedPreferences.getInstance().then((prefs) {
-        if (prefs.getString('userId') != null) {
-          Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (context) {
-            return const InitScreen();
-          }), (route) => false);
-        } else {
-          Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (context) {
-            return const SignInScreen();
-          }), (route) => false);
-        }
-      });
+      //   SharedPreferences.getInstance().then((prefs) {
+      //     if (prefs.getString('userId') != null) {
+      //       Navigator.pushAndRemoveUntil(context,
+      //           MaterialPageRoute(builder: (context) {
+      //         return const InitScreen();
+      //       }), (route) => false);
+      //     } else {
+      //       Navigator.pushAndRemoveUntil(context,
+      //           MaterialPageRoute(builder: (context) {
+      //         return const SignInScreen();
+      //       }), (route) => false);
+      //     }
+      //   });
     });
 
     super.initState();

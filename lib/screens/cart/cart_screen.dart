@@ -10,7 +10,6 @@ import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provide
 
 import 'package:souq_alqua/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:souq_alqua/utils/color_class.dart';
-import 'package:souq_alqua/utils/constants.dart';
 import 'package:souq_alqua/utils/image_class.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:souq_alqua/utils/style_class.dart';
@@ -86,7 +85,7 @@ class _CartScreenState extends State<CartScreen> {
                     children: [
                       Image.asset(ImageClass.loginIcon, height: 110),
                       Text(
-                        "Ready to roll?\n Log in to make these cars yours",
+                        "Ready to roll?\n Log in to make these yours",
                         style: Theme.of(context).textTheme.titleMedium,
                         textAlign: TextAlign.center,
                       ),
@@ -219,16 +218,16 @@ class _CartScreenState extends State<CartScreen> {
                                           maxLines: 2,
                                         ),
                                         const SizedBox(height: 8),
-                                        Text(
-                                          '${(cartProvider.productList[index]['price']) * cartProvider.productList[index]['quantity']}.00 AED',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(
-                                                color: kPrimaryColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
+                                        // Text(
+                                        //   '${(cartProvider.productList[index]['price']) * cartProvider.productList[index]['quantity']}.00 AED',
+                                        //   style: Theme.of(context)
+                                        //       .textTheme
+                                        //       .bodyMedium!
+                                        //       .copyWith(
+                                        //         color: kPrimaryColor,
+                                        //         fontWeight: FontWeight.bold,
+                                        //       ),
+                                        // ),
                                         Row(
                                           children: [
                                             IconButton(

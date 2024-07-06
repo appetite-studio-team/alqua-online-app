@@ -237,11 +237,11 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                             const SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              'Total: ${order.data['items'].fold(0, (prev, item) => prev + item['price'] * item['quantity'])}.00 AED',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 12),
-                            ),
+                            // Text(
+                            //   'Total: ${order.data['items'].fold(0, (prev, item) => prev + item['price'] * item['quantity'])}.00 AED',
+                            //   style: const TextStyle(
+                            //       fontWeight: FontWeight.w600, fontSize: 12),
+                            // ),
                           ],
                         ),
                       ],

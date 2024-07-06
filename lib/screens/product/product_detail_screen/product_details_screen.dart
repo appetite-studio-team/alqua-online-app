@@ -112,25 +112,25 @@ class ProductDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   // price of the product
-                  RichText(
-                      text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    children: [
-                      const TextSpan(text: "AED  "),
-                      TextSpan(
-                        text: "${product.price.toString()}.00",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ],
-                  )),
+                  // RichText(
+                  //     text: TextSpan(
+                  //   style: const TextStyle(
+                  //     color: Colors.black,
+                  //     fontSize: 11,
+                  //     fontWeight: FontWeight.w600,
+                  //   ),
+                  //   children: [
+                  //     const TextSpan(text: "AED  "),
+                  //     TextSpan(
+                  //       text: "${product.price.toString()}.00",
+                  //       style: const TextStyle(
+                  //         color: Colors.black,
+                  //         fontSize: 22,
+                  //         fontWeight: FontWeight.w900,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // )),
                   const Spacer(),
                   Expanded(
                     child: Container(

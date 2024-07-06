@@ -1,5 +1,7 @@
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:souq_alqua/faq_screen/faq_screen.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
+import 'package:souq_alqua/helper/language_helper/locale_provider.dart';
 import 'package:souq_alqua/screens/cart/cart_screen.dart';
 import 'package:souq_alqua/screens/order_screens/delivery_locations/delivery_location.dart';
 import 'package:souq_alqua/screens/order_screens/delivery_locations/providers/delivery_location_provider.dart';
@@ -9,8 +11,8 @@ import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provide
 import 'package:souq_alqua/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/utils/api_support.dart';
 import 'package:souq_alqua/utils/color_class.dart';
-import 'package:souq_alqua/utils/constants.dart';
 import 'package:souq_alqua/utils/image_class.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -35,9 +37,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Provider.of<AddressProvider>(context, listen: false);
     Future.microtask(() {
       loginProvider.getPreference();
-      if (!loginProvider.isGuestLogin) {
-        addressProvider.fetchUserEmail();
-      }
+      loginProvider.checkUserLogin().then((value) {
+        if (!loginProvider.isGuestLogin) {
+          addressProvider.fetchUserEmail();
+        }
+      });
     });
 
     super.initState();
@@ -63,9 +67,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile", style: Theme.of(context).textTheme.bodyLarge),
+        title: Text(
+            translate(
+              'profile',
+            ),
+            style: Theme.of(context).textTheme.bodyLarge),
         centerTitle: true,
       ),
       body: Consumer2<LoginProvider, AddressProvider>(
@@ -80,7 +92,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Image.asset(ImageClass.loginIcon, height: 110),
                         Text(
-                          "Ready to roll?\n Log in to make these cars yours",
+                          translate(
+                            'login_profile',
+                          ),
                           style: Theme.of(context).textTheme.titleMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -90,19 +104,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 2,
                           child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushAndRemoveUntil(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return const SignInScreen();
-                                }), (route) => false);
-                              },
-                              child: const Text('Login')),
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return const SignInScreen();
+                              }), (route) => false);
+                            },
+                            child: CustomText(
+                              translate('login'),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         ProfileMenu(
-                          text: "Contact Us",
+                          text: translate('contact_us'),
                           icon: "assets/icons/Call.svg",
                           press: () async {
                             // call to "8766786789"
@@ -114,8 +133,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             }
                           },
                         ),
+                        Consumer<LocaleProvider>(
+                          builder: (context, langSnap, child) => ProfileMenu(
+                            text: translate('change_language'),
+                            icon: "assets/icons/Settings.svg",
+                            press: () async {
+                              String newLanguageCode =
+                                  Localizations.localeOf(context)
+                                              .languageCode ==
+                                          'en'
+                                      ? 'ar'
+                                      : 'en';
+                              await langSnap.setLocale(newLanguageCode);
+                            },
+                          ),
+                        ),
                         ProfileMenu(
-                          text: "Whatsapp Support",
+                          text: translate('whatsapp_support'),
                           icon: ImageClass.whatsappIcon,
                           press: () {
                             launchWhatsApp(
@@ -124,7 +158,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                         ),
                         ProfileMenu(
-                          text: "Frequently Asked Questions",
+                          text: translate('faq'),
                           icon: "assets/icons/Question mark.svg",
                           press: () {
                             Navigator.push(context,
@@ -132,6 +166,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               return const FaqScreen();
                             }));
                           },
+                        ),
+
+                        // version info
+                        const SizedBox(height: 20),
+                        Text(
+                          "${translate('version')} ${ApiSupport.appVersion}",
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
                       ],
                     ),
@@ -152,54 +193,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 10),
 
                     /// My Wallet
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.black87,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            "assets/icons/Flash Icon.svg",
-                            // ignore: deprecated_member_use
-                            color: Colors.white,
-                            height: 30,
-                          ),
-                          const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text("Reward Points",
-                                  style: TextStyle(
-                                    fontFamily: kFontFamily,
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              Text(addressSnap.rewardPoint ?? "0.00",
-                                  style: const TextStyle(
-                                    fontFamily: kFontFamily,
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.all(16),
+                    //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.black87,
+                    //     boxShadow: [
+                    //       BoxShadow(
+                    //         color: Colors.grey.withOpacity(0.5),
+                    //         spreadRadius: 1,
+                    //         blurRadius: 5,
+                    //         offset: const Offset(0, 3),
+                    //       ),
+                    //     ],
+                    //     borderRadius: BorderRadius.circular(15),
+                    //   ),
+                    //   child: Row(
+                    //     children: [
+                    //       SvgPicture.asset(
+                    //         "assets/icons/Flash Icon.svg",
+                    //         // ignore: deprecated_member_use
+                    //         color: Colors.white,
+                    //         height: 30,
+                    //       ),
+                    //       const SizedBox(width: 10),
+                    //       Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         children: [
+                    //           const Text("Reward Points",
+                    //               style: TextStyle(
+                    //                 fontFamily: kFontFamily,
+                    //                 fontSize: 12,
+                    //                 color: Colors.white,
+                    //                 fontWeight: FontWeight.bold,
+                    //               )),
+                    //           Text(addressSnap.rewardPoint ?? "0.00",
+                    //               style: const TextStyle(
+                    //                 fontFamily: kFontFamily,
+                    //                 fontSize: 20,
+                    //                 color: Colors.white,
+                    //                 fontWeight: FontWeight.bold,
+                    //               )),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+
                     ProfileMenu(
-                      text: "Contact Us",
+                      text: translate('contact_us'),
                       icon: "assets/icons/Call.svg",
                       press: () async {
                         // call to "8766786789"
@@ -211,8 +253,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }
                       },
                     ),
+                    Consumer<LocaleProvider>(
+                      builder: (context, langSnap, child) => ProfileMenu(
+                        text: translate('change_language'),
+                        icon: "assets/icons/Settings.svg",
+                        press: () async {
+                          String newLanguageCode =
+                              Localizations.localeOf(context).languageCode ==
+                                      'en'
+                                  ? 'ar'
+                                  : 'en';
+                          await langSnap.setLocale(newLanguageCode);
+                        },
+                      ),
+                    ),
                     ProfileMenu(
-                      text: "My Cart",
+                      text: translate('my_cart'),
                       icon: "assets/icons/Cart Icon.svg",
                       press: () => {
                         Navigator.push(context,
@@ -222,7 +278,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     ProfileMenu(
-                      text: "My Orders",
+                      text: translate('my_orders'),
                       icon: "assets/icons/User Icon.svg",
                       press: () => {
                         Navigator.push(context,
@@ -232,7 +288,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     ProfileMenu(
-                      text: "Delivery Address",
+                      text: translate('delivery_address'),
                       icon: "assets/icons/Parcel.svg",
                       press: () => {
                         Navigator.push(context,
@@ -242,7 +298,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     ProfileMenu(
-                      text: "Frequently Asked Questions",
+                      text: translate('faq'),
                       icon: "assets/icons/Question mark.svg",
                       press: () {
                         Navigator.push(context,
@@ -252,7 +308,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     ProfileMenu(
-                      text: "Whatsapp Support",
+                      text: translate('whatsapp_support'),
                       icon: ImageClass.whatsappIcon,
                       press: () {
                         launchWhatsApp(
@@ -261,16 +317,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     ProfileMenu(
-                      text: "Delete Account",
+                      text: translate('delete_account'),
                       icon: "assets/icons/Trash.svg",
                       press: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: const Text('Delete Account'),
-                              content: const Text(
-                                  'Are you sure you want to delete your account?'),
+                              title: CustomText(translate('delete_account')),
+                              content: CustomText(translate('delete_confirm')),
                               actions: <Widget>[
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
@@ -280,9 +335,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Navigator.of(context).pop(
                                         false); // Dismiss the dialog and return false
                                   },
-                                  child: const Text(
-                                    'Cancel',
-                                    style: TextStyle(color: Colors.black45),
+                                  child: Text(
+                                    translate('Cancel'),
+                                    style:
+                                        const TextStyle(color: Colors.black45),
                                   ),
                                 ),
                                 const SizedBox(
@@ -295,7 +351,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   onPressed: () async {
                                     snap.logoutFn(context: context);
                                   },
-                                  child: const Text('Delete'),
+                                  child: CustomText(
+                                    translate('Delete'),
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ],
                             );
@@ -304,7 +363,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     ProfileMenu(
-                      text: "Log Out",
+                      text: translate('logout'),
                       icon: "assets/icons/Log out.svg",
                       press: () {
                         showDialog(
@@ -316,13 +375,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // This block executes when the dialog is dismissed.
                           if (value != null && value) {
                             // FirebaseAuth.instance.signOut();
-                            Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const SignInScreen();
-                            }), (route) => false);
+                            snap.logoutFn(context: context);
                           }
                         });
                       },
+                    ),
+
+                    // version info
+                    const SizedBox(height: 20),
+
+                    Text(
+                      "${translate('version')} ${ApiSupport.appVersion}",
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ],
                 ),
@@ -337,9 +401,13 @@ class LogoutDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return AlertDialog(
-      title: const Text('Logout'),
-      content: const Text('Are you sure you want to logout?'),
+      title: Text(translate('logout')),
+      content: Text(translate('logout_confirm')),
       actions: <Widget>[
         ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -348,9 +416,9 @@ class LogoutDialog extends StatelessWidget {
             Navigator.of(context)
                 .pop(false); // Dismiss the dialog and return false
           },
-          child: const Text(
-            'Cancel',
-            style: TextStyle(color: Colors.black45),
+          child: Text(
+            translate('Cancel'),
+            style: const TextStyle(color: Colors.black45),
           ),
         ),
         const SizedBox(
@@ -362,7 +430,9 @@ class LogoutDialog extends StatelessWidget {
             Navigator.of(context)
                 .pop(true); // Dismiss the dialog and return true
           },
-          child: const Text('Logout'),
+          child: Text(
+            translate('logout'),
+          ),
         ),
       ],
     );

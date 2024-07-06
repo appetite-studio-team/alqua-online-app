@@ -51,13 +51,13 @@ List<Map<String, String>> faqData = [
     'answer': 'We accept returns within 30 days of purchase.'
   },
   {
-    'question': 'Do you offer free shipping?',
-    'answer': 'Yes, we offer free shipping on orders over 100 AED.'
+    'question': 'Do you offer free Delivery?',
+    'answer': 'Yes, we offer free Delivery on orders over 100 AED.'
   },
   {
     'question': 'How can I track my order?',
     'answer':
-        'You can track your order using the tracking number provided in your shipping confirmation email.'
+        'You can track your order using the tracking number provided in your Delivery confirmation email.'
   },
   {
     'question': 'What payment methods do you accept?',
@@ -81,7 +81,7 @@ List<Map<String, String>> faqData = [
   {
     'question': 'How long will it take for my order to arrive?',
     'answer':
-        'Standard shipping typically takes 5-7 business days, but may vary depending on your location.'
+        'Standard Delivery typically takes 5-7 business days, but may vary depending on your location.'
   },
 
   // Add more FAQ data as needed

@@ -91,7 +91,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Consumer<LoginProvider>(
+                      Consumer<LoginProvider>(       
                         builder: (context, provider, child) =>
                             ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(

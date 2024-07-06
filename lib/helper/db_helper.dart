@@ -12,6 +12,10 @@ class DbHelper {
   // db ids
   static String orderMngmtDbId = "6683c23c00047ceb16db";
   static String serviceMngmtDbId = "66844c41003a75f85739";
+  static String appMngmtDbId = "6688f3f60021cb1ce285";
+
+  // bucket ids
+  static String homeBannerBucketId = "6688f489000d5ab26bea";
 
   // order collection id
   static String itemsCollectionId = "6683c3e000042e353604";
@@ -23,4 +27,7 @@ class DbHelper {
   // service collection id
   static String serviceCollectionId = "66844cb6002e89f29595";
   static String serviceActivity = "66850c35000731fe2fa4";
+
+  // app management collection id
+  static String homeBannerCollectionId = "6688f40100008b7b1c37";
 }

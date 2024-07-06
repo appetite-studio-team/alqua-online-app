@@ -17,4 +17,7 @@ class ImageClass {
   static const String supermarket = '${imageRoot}supermarket.png';
   static const String restaurants = '${imageRoot}restaurants.png';
   static const String taxi = '${imageRoot}taxi.png';
+  static const String dress = '${imageRoot}dress-icon.png';
+  static const String arabMen = '${imageRoot}arab-men.png';
+  static const String arabWomen = '${imageRoot}arab-women.png';
 }
