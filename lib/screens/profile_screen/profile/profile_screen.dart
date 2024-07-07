@@ -157,16 +157,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 message: "Hello, I need help with my order.");
                           },
                         ),
-                        ProfileMenu(
-                          text: translate('faq'),
-                          icon: "assets/icons/Question mark.svg",
-                          press: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const FaqScreen();
-                            }));
-                          },
-                        ),
+                        // ProfileMenu(
+                        //   text: translate('faq'),
+                        //   icon: "assets/icons/Question mark.svg",
+                        //   press: () {
+                        //     Navigator.push(context,
+                        //         MaterialPageRoute(builder: (context) {
+                        //       return const FaqScreen();
+                        //     }));
+                        //   },
+                        // ),
 
                         // version info
                         const SizedBox(height: 20),

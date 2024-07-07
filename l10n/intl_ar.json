@@ -24,10 +24,26 @@
     "restaurant": "مطعم",
     "supermarket": "سوبر ماركت",
     "Workers": "عمال",
+
+    "/// product": "product",
     "shop_by_category":  "تسوق حسب الفئات",
     "see_more" : "المزيد",
     "popular_products": "🔥 الأكثر مبيعاً",
     "products": "المنتجات",
-    "products_not_found": "المنتج غير موجود"
+    "products_not_found": "المنتج غير موجود",
+    "result_not_found" : "النتيجة غير موجودة",
+    "result_not_found_desc" : "يرجى المحاولة مرة أخرى بكلمة أخرى",
+    "al_mubarak" :"المبارك للالكترونيات",
+    "description" : "الوصف",
+    "add_to_cart" : "أضف إلى السلة",
+    "buy_now": "اشتري الآن",
+    "pay_later_with" : "ادفع لاحقاً مع",
+    "please_login_to_add_to_cart": "يرجى تسجيل الدخول لإضافة المنتج إلى السلة",
+    "added_to_cart" : "تمت الإضافة إلى السلة",
+    "all_categories": "جميع الفئات",
+    "/// cart screen": "cart screen",
+
+    "your_cart" : "سلتك",
+    "start_shopping" : "ابدأ التسوق"
   }
   

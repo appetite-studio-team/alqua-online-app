@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/home/components/tabby_banner.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
 
@@ -9,7 +11,6 @@ import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
 import 'package:souq_alqua/utils/api_support.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/constants.dart';
-import 'package:souq_alqua/utils/style_class.dart';
 
 class ProductDescription extends StatelessWidget {
   const ProductDescription({
@@ -23,6 +24,10 @@ class ProductDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -91,9 +96,11 @@ class ProductDescription extends StatelessWidget {
                   color: ColorClass.lightBlueColor,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Text(
-                  "Al Mubarak Electronics",
-                  style: TextStyleClass.text12Black,
+                child: CustomText(
+                  translate('al_mubarak'),
+                  fontSize: 12,
+                  color: ColorClass.black,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 10),
@@ -106,7 +113,7 @@ class ProductDescription extends StatelessWidget {
                           ) ==
                           ''
                       ? ""
-                      : "Description \n\n",
+                      : "${translate('description')} \n\n",
                   style: const TextStyle(
                     color: kBlackColor,
                     fontSize: 15,

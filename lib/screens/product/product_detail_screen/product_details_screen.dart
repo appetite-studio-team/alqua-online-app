@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/cart/providers/appwrite_cart_provider.dart';
 // ignore: unused_import
 import 'package:souq_alqua/screens/cart/providers/cart_provider.dart';
@@ -15,6 +16,7 @@ import 'package:souq_alqua/utils/color_class.dart';
 import 'components/product_description.dart';
 import 'components/product_images.dart';
 import 'components/top_rounded_container.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   static String routeName = "/details";
@@ -24,6 +26,10 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
@@ -150,13 +156,15 @@ class ProductDetailsScreen extends StatelessWidget {
                           try {
                             if (loginProvider.isGuestLogin) {
                               floatingSnackBar(
-                                  message: 'Please login to add to cart',
+                                  message:
+                                      translate('please_login_to_add_to_cart'),
                                   context: context);
                             } else {
                               // Call the addToCart function
                               await awSnap.addToCart(product);
                               floatingSnackBar(
-                                  message: 'Added to cart', context: context);
+                                  message: translate('added_to_cart'),
+                                  context: context);
                             }
                           } catch (error) {
                             // Handle any errors here
@@ -174,13 +182,11 @@ class ProductDetailsScreen extends StatelessWidget {
                                 color: Colors.white,
                                 size: 30,
                               )
-                            : const Text(
-                                "Add To Cart",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            : CustomText(
+                                translate('add_to_cart'),
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
                               ),
                       ),
                     ),

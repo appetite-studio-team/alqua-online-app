@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/cart/providers/appwrite_cart_provider.dart';
 import 'package:souq_alqua/screens/cart/screen/checkout_screen.dart';
 import 'package:souq_alqua/screens/order_screens/delivery_locations/providers/delivery_location_provider.dart';
@@ -39,15 +41,21 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Consumer2<AppwriteCartProvider, LoginProvider>(
           builder: (context, snapshot, loginSnap, child) => Row(
             children: [
-              Text(
-                "Your Cart",
-                style: Theme.of(context).textTheme.titleMedium,
+              CustomText(
+                translate('all_categories'),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
+              const SizedBox(width: 10),
               loginSnap.isGuestLogin || snapshot.cartLength == 0
                   ? const SizedBox()
                   : Container(
@@ -84,9 +92,10 @@ class _CartScreenState extends State<CartScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(ImageClass.loginIcon, height: 110),
-                      Text(
-                        "Ready to roll?\n Log in to make these yours",
-                        style: Theme.of(context).textTheme.titleMedium,
+                      CustomText(
+                        translate('login_profile'),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
@@ -95,13 +104,18 @@ class _CartScreenState extends State<CartScreen> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 2,
                         child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const SignInScreen();
-                              }), (route) => false);
-                            },
-                            child: const Text('Login')),
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const SignInScreen();
+                            }), (route) => false);
+                          },
+                          child: CustomText(
+                            translate('login'),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -153,9 +167,9 @@ class _CartScreenState extends State<CartScreen> {
                                         Navigator.pushNamed(
                                             context, InitScreen.routeName);
                                       },
-                                      child: const Text(
-                                        "Start Shopping",
-                                        style: TextStyle(
+                                      child: Text(
+                                        translate('start_shopping'),
+                                        style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),

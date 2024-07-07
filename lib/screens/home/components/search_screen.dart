@@ -1,3 +1,5 @@
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/product/product_detail_screen/product_details_screen.dart';
 import 'package:souq_alqua/utils/animation_class.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,10 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Consumer<HomeProvider>(
@@ -58,11 +64,18 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                             border: searchOutlineInputBorder,
                             focusedBorder: searchOutlineInputBorder,
                             enabledBorder: searchOutlineInputBorder,
-                            hintText: "Search products",
+                            hintText: translate('search_products'),
                             hintStyle: const TextStyle(
                               color: kTextColor,
                             ),
                             prefixIcon: const Icon(Icons.search),
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                searchController.clear();
+                                snapshot.clearSearchList();
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -80,20 +93,16 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                               height: 200,
                             ),
                             const SizedBox(height: 16),
-                            const Text(
-                              "No results found",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            CustomText(
+                              translate('result_not_found'),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
                             const SizedBox(height: 8),
-                            const Text(
-                              "Please try again with another \nkeyword or maybe use generic terms",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
+                            CustomText(
+                              translate('result_not_found_desc'),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
                               textAlign: TextAlign.center,
                             ),
                           ],

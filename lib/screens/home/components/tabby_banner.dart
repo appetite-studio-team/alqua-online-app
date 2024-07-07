@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 
 class TabbyBanner extends StatelessWidget {
@@ -8,6 +9,10 @@ class TabbyBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.fromLTRB(0, 8, 0, 15),
@@ -28,19 +33,20 @@ class TabbyBanner extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          const Text.rich(
+          Text.rich(
             TextSpan(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               children: [
                 TextSpan(
-                  text: "Buy now.\n",
-                  style: TextStyle(
+                  text: "${translate("buy_now")} \n ",
+                  style: const TextStyle(
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 TextSpan(
-                  text: "Pay later with",
-                  style: TextStyle(
+                  text: translate("pay_later_with"),
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

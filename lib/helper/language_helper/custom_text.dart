@@ -8,7 +8,6 @@ class CustomText extends StatelessWidget {
   final FontWeight? fontWeight;
   final Color? color;
   final TextAlign? textAlign;
-  
 
   const CustomText(
     this.text, {

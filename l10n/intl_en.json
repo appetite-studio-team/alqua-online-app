@@ -1,7 +1,7 @@
 {
   "/// profile screen": "profile screen",
   "profile": "Profile",
-  "login_profile" : "Login to your account",
+  "login_profile": "Login to your account",
   "login": "Login",
   "contact_us": "Contact Us",
   "change_language": "Change Language",
@@ -12,22 +12,34 @@
   "whatsapp_support": "Whatsapp Support",
   "delete_account": "Delete Account",
   "delete_confirm": "Are you sure you want to delete your account?",
-  "Cancel" : "Cancel",
-  "Delete" : "Delete",
+  "Cancel": "Cancel",
+  "Delete": "Delete",
   "logout": "Logout",
   "logout_confirm": "Are you sure you want to logout?",
   "version": "Version",
-
   "/// home screen": "home screen",
   "search_products": "Search Products",
   "dress": "Dress",
   "restaurant": "Restaurant",
   "supermarket": "Supermarket",
   "Workers": "Workers",
+  "/// product": "product",
   "shop_by_category": "Shop by Category",
-  "see_more" : "See More",
-  "popular_products" : "🔥 Popular Products",
+  "see_more": "See More",
+  "popular_products": "🔥 Popular Products",
   "products": "Products",
-  "products_not_found": "Product not found"
-  }
-  
+  "products_not_found": "Product not found",
+  "result_not_found": "Result not found",
+  "result_not_found_desc": "Please try again with another word",
+  "al_mubarak": "Al Mubarak Electronics",
+  "add_to_cart": "Add to Cart",
+  "buy_now": "Buy Now",
+  "pay_later_with": "Pay later with",
+  "please_login_to_add_to_cart": "Please login to add to cart",
+  "added_to_cart": "Added to cart",
+  "all_categories": "All Categories",
+  "/// cart screen": "cart screen",
+  "your_cart": "Your Cart",
+  "start_shopping": "Start Shopping"
+
+}

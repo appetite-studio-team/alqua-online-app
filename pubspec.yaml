@@ -107,6 +107,9 @@ flutter:
           weight: 700
         - asset: assets/fonts/muli/Muli-Light.ttf
           weight: 300
+        - asset: assets/fonts/muli/Muli-SemiBold.ttf
+          weight: 600
+        
     - family: NotoSansArabic
       fonts:
         - asset: assets/fonts/notosans_ar/NotoSansArabic-Regular.ttf
