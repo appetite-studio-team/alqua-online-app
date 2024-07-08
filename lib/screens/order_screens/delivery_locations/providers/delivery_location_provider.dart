@@ -59,6 +59,8 @@ class AddressProvider extends ChangeNotifier {
     }
   }
 
+
+
   // get the default address of the user if it exists
   Address? get defaultAddress {
     final defaultAddresses =

@@ -5,6 +5,7 @@ import 'package:souq_alqua/screens/home/screens/home_banner/home_banner.dart';
 import 'package:souq_alqua/screens/home/screens/service_section/services_section.dart';
 import 'package:souq_alqua/screens/home/provider/home_screen_provider.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
+import 'package:souq_alqua/screens/order_screens/delivery_locations/providers/delivery_location_provider.dart';
 
 import 'package:souq_alqua/utils/image_class.dart';
 
@@ -33,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
         Provider.of<LoginProvider>(context, listen: false);
     final AppwriteCartProvider appwriteCartProvider =
         Provider.of<AppwriteCartProvider>(context, listen: false);
+    AddressProvider addressProvider =
+        Provider.of<AddressProvider>(context, listen: false);
 
     // Use Future.microtask to handle asynchronous operations
     Future.microtask(() async {
@@ -58,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
           futures.add(appwriteCartProvider.getCartLength());
         }
       });
+      await addressProvider.fetchAddresses();
 
       // if user is logged in, get the cart length
 
@@ -77,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-       
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

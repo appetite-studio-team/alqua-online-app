@@ -10,7 +10,7 @@ import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provide
 import 'package:souq_alqua/screens/authentication/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:souq_alqua/utils/api_support.dart';
+import 'package:souq_alqua/utils/app_support.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/image_class.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -124,7 +124,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           icon: "assets/icons/Call.svg",
                           press: () async {
                             // call to "8766786789"
-                            Uri url = Uri(scheme: 'tel', path: "0506375562");
+                            Uri url = Uri(
+                                scheme: 'tel', path: AppSupport.adminContact);
                             if (await canLaunchUrl(url)) {
                               await launchUrl(url);
                             } else {
@@ -159,7 +160,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         // version info
                         const SizedBox(height: 20),
                         Text(
-                          "${translate('version')} ${ApiSupport.appVersion}",
+                          "${translate('version')} ${AppSupport.appVersion}",
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
                       ],
@@ -233,7 +234,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: "assets/icons/Call.svg",
                       press: () async {
                         // call to "8766786789"
-                        Uri url = Uri(scheme: 'tel', path: "0506375562");
+                        Uri url =
+                            Uri(scheme: 'tel', path: AppSupport.adminContact);
                         if (await canLaunchUrl(url)) {
                           await launchUrl(url);
                         } else {
@@ -267,7 +269,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     ProfileMenu(
                       text: translate('my_orders'),
-                      icon: "assets/icons/User Icon.svg",
+                      icon: "assets/icons/my_order.svg",
                       press: () => {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
@@ -277,7 +279,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     ProfileMenu(
                       text: translate('delivery_address'),
-                      icon: "assets/icons/Parcel.svg",
+                      icon: "assets/icons/Location point`.svg",
                       press: () => {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
@@ -300,7 +302,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: ImageClass.whatsappIcon,
                       press: () {
                         launchWhatsApp(
-                            phone: "+971506375562",
+                            phone: AppSupport.adminContact,
                             message: "Hello, I need help with my order.");
                       },
                     ),
@@ -373,7 +375,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 20),
 
                     Text(
-                      "${translate('version')} ${ApiSupport.appVersion}",
+                      "${translate('version')} ${AppSupport.appVersion}",
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ],

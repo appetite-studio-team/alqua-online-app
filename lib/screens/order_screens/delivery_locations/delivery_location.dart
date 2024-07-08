@@ -42,7 +42,7 @@ class _LocationScreenState extends State<LocationScreen> {
     return Scaffold(
       appBar: AppBar(
         title: CustomText(
-          translate('order_details'),
+          translate('delivery_address'),
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),

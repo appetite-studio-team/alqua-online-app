@@ -25,17 +25,11 @@ void main() async {
   /// Shake Configuration
   // Shake.start(DbHelper.shakeClientId, DbHelper.shakeClientSecret);
 
-  // Appwrite Configuration
-  appwrite.Client client = appwrite.Client();
-  client
-      .setEndpoint(DbHelper.dbUrl)
-      .setProject(DbHelper.projectId)
-      .setSelfSigned(status: true);
   // For self signed certificates, only use for development
 
   // OneSignal Initialization
   // Remove this method to stop OneSignal Debugging
-  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  // OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
   OneSignal.initialize(DbHelper.oneSignalAppId);
 
@@ -47,6 +41,12 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  // Appwrite Configuration
+  appwrite.Client client = appwrite.Client();
+  client
+      .setEndpoint(DbHelper.dbUrl)
+      .setProject(DbHelper.projectId)
+      .setSelfSigned(status: true);
 
   runApp(
     MultiProvider(

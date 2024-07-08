@@ -9,6 +9,7 @@ import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/cart/providers/appwrite_cart_provider.dart';
 // ignore: unused_import
 import 'package:souq_alqua/screens/cart/providers/cart_provider.dart';
+import 'package:souq_alqua/screens/cart/screen/checkout_screen.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
 import 'package:souq_alqua/utils/color_class.dart';
@@ -113,7 +114,7 @@ class ProductDetailsScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
           child: Consumer2<LoginProvider, AppwriteCartProvider>(
-            builder: (context, loginProvider, awSnap, child) {
+            builder: (context, loginProvider, cartProvider, child) {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -159,37 +160,31 @@ class ProductDetailsScreen extends StatelessWidget {
                                       translate('please_login_to_add_to_cart'),
                                   context: context);
                             } else {
-                              // Call the addToCart function
-                              await awSnap.addToCart(product);
-                              floatingSnackBar(
-                                  message: translate('added_to_cart'),
-                                  context: context);
+                              cartProvider
+                                  .orderByCall(
+                                    productId: product.id.toString(),
+                                    productName: product.name ?? '',
+                                    productImage: product.images.first.src!,
+                                    context: context,
+                                  )
+                                  .then(
+                                    (value) => cartProvider.launchPhoneUrls(),
+                                  );
                             }
                           } catch (error) {
                             // Handle any errors here
                             print("Error adding to cart: $error");
-                          } finally {
-                            // Ensure the loading indicator is dismissed if an error occurs
-                            // can pop the screen here
-                            Navigator.canPop(context)
-                                ? Navigator.pop(context)
-                                : null;
                           }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorClass.redAccentColor,
                         ),
-                        child: awSnap.isAddtoCartLoading
-                            ? LoadingAnimationWidget.horizontalRotatingDots(
-                                color: Colors.white,
-                                size: 30,
-                              )
-                            : CustomText(
-                                translate('call_to_order'),
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
+                        child: CustomText(
+                          translate('call_to_order'),
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -218,7 +213,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   context: context);
                             } else {
                               // Call the addToCart function
-                              await awSnap.addToCart(product);
+                              await cartProvider.addToCart(product, context);
                               floatingSnackBar(
                                   message: translate('added_to_cart'),
                                   context: context);
@@ -229,12 +224,16 @@ class ProductDetailsScreen extends StatelessWidget {
                           } finally {
                             // Ensure the loading indicator is dismissed if an error occurs
                             // can pop the screen here
-                            Navigator.canPop(context)
-                                ? Navigator.pop(context)
-                                : null;
+                            // navigate to cart screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CheckOutScreen(),
+                              ),
+                            );
                           }
                         },
-                        child: awSnap.isAddtoCartLoading
+                        child: cartProvider.isAddtoCartLoading
                             ? LoadingAnimationWidget.horizontalRotatingDots(
                                 color: Colors.white,
                                 size: 30,

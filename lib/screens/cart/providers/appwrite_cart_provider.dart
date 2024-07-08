@@ -3,14 +3,19 @@ import 'dart:developer';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:souq_alqua/helper/db_helper.dart';
+import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
 import 'package:souq_alqua/screens/home/models/products_model.dart';
+import 'package:souq_alqua/screens/order_screens/delivery_locations/providers/delivery_location_provider.dart';
+import 'package:souq_alqua/utils/app_support.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppwriteCartProvider extends ChangeNotifier {
   // check user login or not return true or false
 
   bool isAddtoCartLoading = false;
-  Future<void> addToCart(GetAllProducts product) async {
+  Future<void> addToCart(GetAllProducts product, BuildContext context) async {
     try {
       isAddtoCartLoading = true;
       notifyListeners();
@@ -534,5 +539,78 @@ class AppwriteCartProvider extends ChangeNotifier {
     deliveryDate = createdDate.add(const Duration(days: -4));
 
     return DateFormat('MMMM d, yyyy').format(deliveryDate);
+  }
+
+  /// order by call
+  Future<void> orderByCall({
+    required String productName,
+    required String productId,
+    required String productImage,
+    required BuildContext context,
+  }) async {
+    try {
+      final client = Client();
+      client.setEndpoint(DbHelper.dbUrl);
+      client.setProject(DbHelper.projectId);
+      LoginProvider loginProvider =
+          Provider.of<LoginProvider>(context, listen: false);
+      AddressProvider addressProvider =
+          Provider.of<AddressProvider>(context, listen: false);
+      if (loginProvider.isGuestLogin) {
+        final database = Databases(client);
+        final response = await database.createDocument(
+          databaseId: DbHelper.orderMngmtDbId,
+          collectionId: DbHelper.orderByCallCollectionId,
+          documentId: ID.unique(),
+          data: {
+            "user": 'Guest',
+            "phone": 'anonymous',
+            "address": 'anonymous',
+            "product_name": productName,
+            "product_id": productId,
+            "product_image": productImage,
+          },
+        );
+        log('Guest Activity created', name: "activity");
+        log(response.toString(), name: "activity");
+      } else {
+        // account
+        final account = Account(client);
+        final user = await account.get();
+        String userId = user.email;
+        final database = Databases(client);
+        final response = await database.createDocument(
+          databaseId: DbHelper.orderMngmtDbId,
+          collectionId: DbHelper.orderByCallCollectionId,
+          documentId: ID.unique(),
+          data: {
+            "user": userId,
+            "phone": addressProvider.defaultAddress == null
+                ? 'anonymous'
+                : addressProvider.defaultAddress!.phoneNumber,
+            "address": addressProvider.defaultAddress == null
+                ? 'anonymous'
+                : '${addressProvider.defaultAddress!.street}, ${addressProvider.defaultAddress!.doorNo}',
+            "product_name": productName,
+            "product_id": productId,
+            "product_image": productImage,
+          },
+        );
+        log(response.toString(), name: "call to order");
+      }
+    } on AppwriteException catch (e) {
+      log(e.message.toString(), name: "error");
+      log(e.toString(), name: "error");
+    }
+  }
+
+  // launch phone urls for calling
+  void launchPhoneUrls() async {
+    Uri url = Uri(scheme: 'tel', path: AppSupport.alMubarakContact);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

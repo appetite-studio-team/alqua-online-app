@@ -56,6 +56,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 translate('my_cart'),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
+              const SizedBox(width: 10),
               loginSnap.isGuestLogin || snapshot.cartLength == 0
                   ? const SizedBox()
                   : Container(
@@ -387,12 +388,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               // Delivery Date
                               const SizedBox(height: 20),
                               ListTile(
-                                title: const Text(
-                                  'Delivery Date',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
+                                title: CustomText(translate('delivery_date'),
+                                    fontWeight: FontWeight.bold, fontSize: 14),
                                 leading: Container(
                                   padding: const EdgeInsets.all(10),
                                   height: 40,
@@ -409,7 +406,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 subtitle: Text(
                                   DateFormat('MMMM dd yyyy')
                                       .format(DateTime.now()),
-                                  style: const TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 13),
                                 ),
                               ),
 
@@ -417,12 +414,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               Consumer<AddressProvider>(
                                 builder: (context, addressProvider, child) =>
                                     ListTile(
-                                  title: const Text(
-                                    'Delivery Address',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  ),
+                                  title: CustomText(
+                                      translate('delivery_address'),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
                                   leading: Container(
                                     padding: const EdgeInsets.all(10),
                                     height: 40,
@@ -439,15 +434,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   subtitle: addressProvider.defaultAddress !=
                                           null
                                       ? Text(
-                                          "${addressProvider.defaultAddress!.street}, ${addressProvider.defaultAddress!.doorNo},\n${addressProvider.defaultAddress!.phoneNumber}",
-                                          style: const TextStyle(fontSize: 12),
+                                          "${addressProvider.defaultAddress!.street}, ${addressProvider.defaultAddress!.doorNo}\n${addressProvider.defaultAddress!.phoneNumber}",
+                                          style: const TextStyle(fontSize: 13),
                                         )
-                                      : const Text(
-                                          "Please select a delivery address",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: ColorClass.kPrimaryColor),
-                                        ),
+                                      : CustomText(
+                                          translate(
+                                              'select_a_delivery_address'),
+                                          fontSize: 14,
+                                          color: ColorClass.kPrimaryColor),
                                   trailing: IconButton(
                                     onPressed: () {
                                       Navigator.push(context,
@@ -469,7 +463,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               //     'Coupon Code / Gift Card',
                               //     style: TextStyle(
                               //         fontWeight: FontWeight.bold,
-                              //         fontSize: 12),
+                              //         fontSize: 14),
                               //   ),
                               //   leading: Container(
                               //     padding: const EdgeInsets.all(10),
@@ -586,12 +580,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
                               // Shiping fee
                               ListTile(
-                                title: const Text(
-                                  'Delivery Fee',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
+                                title: CustomText(translate('delivery_fee'),
+                                    fontWeight: FontWeight.bold, fontSize: 14),
                                 leading: Container(
                                   padding: const EdgeInsets.all(10),
                                   height: 40,
@@ -608,7 +598,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 subtitle: const Text(
                                   'AED 0.00',
                                   style: TextStyle(
-                                      fontSize: 12,
+                                      fontSize: 13,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
