@@ -47,9 +47,7 @@ class AddressProvider extends ChangeNotifier {
         return Address(
           id: doc.data['\$id'],
           userId: doc.data['userId'] ?? '',
-          addressName: doc.data['addressName'] ?? '',
           street: doc.data['street'] ?? '',
-          city: doc.data['city'] ?? '',
           phoneNumber: doc.data['phoneNumber'] ?? '',
           doorNo: doc.data['doorNo'] ?? '',
           isDefault: doc.data['isDefault'] ?? false,
@@ -92,9 +90,7 @@ class AddressProvider extends ChangeNotifier {
       documentId: ID.unique(),
       data: {
         'userId': address.userId,
-        'addressName': address.addressName,
         'street': address.street,
-        'city': address.city,
         'doorNo': address.doorNo, // Added door number field
         'phoneNumber': address.phoneNumber, // Added phone number field
         'isDefault': address.isDefault,
@@ -114,9 +110,7 @@ class AddressProvider extends ChangeNotifier {
       collectionId: DbHelper.addressCollectionId,
       documentId: address.id,
       data: {
-        'addressName': address.addressName,
         'street': address.street,
-        'city': address.city,
         'doorNo': address.doorNo, // Added door number field
         'phoneNumber': address.phoneNumber, // Added phone number field
         'isDefault': address.isDefault,
@@ -335,9 +329,7 @@ class AddressProvider extends ChangeNotifier {
 class Address {
   String id;
   String userId; // User email
-  String addressName;
   String street;
-  String city;
   String phoneNumber;
   String doorNo;
   bool isDefault;
@@ -345,9 +337,7 @@ class Address {
   Address({
     required this.id,
     required this.userId,
-    required this.addressName,
     required this.street,
-    required this.city,
     required this.phoneNumber,
     required this.doorNo,
     required this.isDefault,

@@ -3,6 +3,8 @@
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/order_screens/delivery_locations/providers/delivery_location_provider.dart';
 import 'package:souq_alqua/screens/authentication/sign_in/provider/login_provider.dart';
 import 'package:souq_alqua/utils/color_class.dart';
@@ -33,11 +35,16 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Delivery Locations',
-          style: Theme.of(context).textTheme.bodyMedium,
+        title: CustomText(
+          translate('order_details'),
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
         ),
       ),
       body: Consumer<AddressProvider>(
@@ -50,9 +57,10 @@ class _LocationScreenState extends State<LocationScreen> {
                       ImageClass.trackingIcon,
                       height: 100,
                     ),
-                    Text(
-                      'No locations yet. Click + to fix that!',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                    const SizedBox(height: 10),
+                    CustomText(
+                      translate('no_delivery_address'),
+                      fontSize: 16,
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -86,7 +94,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         ..then((value) {
                           floatingSnackBar(
                               message:
-                                  '${provider.addresses[index].addressName} set as default',
+                                  '${provider.addresses[index].doorNo} ${translate('set_as_default')}',
                               context: context);
                         }),
                       leading: const Icon(
@@ -99,7 +107,8 @@ class _LocationScreenState extends State<LocationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(provider.addresses[index].addressName),
+                            Text(
+                                '${provider.addresses[index].doorNo} ${provider.addresses[index].street}'),
                             const SizedBox(width: 15),
                             if (provider.addresses[index].isDefault)
                               Container(
@@ -110,13 +119,10 @@ class _LocationScreenState extends State<LocationScreen> {
                                       ColorClass.kPrimaryColor.withOpacity(0.8),
                                   borderRadius: BorderRadius.circular(3),
                                 ),
-                                child: const Text(
-                                  "Default",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10),
-                                ),
+                                child: CustomText(translate('default'),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 11),
                               ),
                           ],
                         ),
@@ -125,7 +131,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Door No: ${provider.addresses[index].doorNo},Al Quoa,\nPhone: ${provider.addresses[index].phoneNumber}',
+                            '${translate('house_no')} : ${provider.addresses[index].doorNo}, Al Quoa\n ${translate('phone')} : ${provider.addresses[index].phoneNumber}',
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.grey,
@@ -174,14 +180,11 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void showAddLocationBottomSheet(BuildContext context, {Address? address}) {
-    final TextEditingController addressName =
-        TextEditingController(text: address?.addressName ?? '');
     final TextEditingController doorNo =
         TextEditingController(text: address?.doorNo ?? '');
     final TextEditingController street =
         TextEditingController(text: address?.street ?? '');
-    final TextEditingController city =
-        TextEditingController(text: address?.city ?? '');
+
     final TextEditingController phoneNumber =
         TextEditingController(text: address?.phoneNumber ?? '');
 
@@ -190,6 +193,10 @@ class _LocationScreenState extends State<LocationScreen> {
           true, // This allows the bottom sheet to adjust for the keyboard
       context: context,
       builder: (context) {
+        String translate(String key) {
+          return AppLocalizations.of(context)?.translate(key) ?? key;
+        }
+
         return Consumer<AddressProvider>(
           builder: (context, snapshot, child) => Padding(
             padding: EdgeInsets.only(
@@ -206,8 +213,8 @@ class _LocationScreenState extends State<LocationScreen> {
                   children: <Widget>[
                     Text(
                       address == null
-                          ? 'Add Delivery Location'
-                          : 'Edit Delivery Location',
+                          ? translate('add_delivery_address')
+                          : translate('edit_delivery_address'),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -216,27 +223,29 @@ class _LocationScreenState extends State<LocationScreen> {
                     const SizedBox(height: 20),
                     AddressCustomTextField(
                       textController: doorNo,
-                      hintText: 'Door No/ Apt No',
+                      hintText: translate('enter_house_no'),
                       numKeyPad: true,
                     ),
                     const SizedBox(height: 16),
                     AddressCustomTextField(
-                        textController: addressName, hintText: 'Address'),
+                      textController: street,
+                      hintText: translate('enter_street'),
+                    ),
                     const SizedBox(height: 16),
                     AddressCustomTextField(
                       textController: phoneNumber,
-                      hintText: 'Phone Number 🇦🇪',
+                      hintText: translate('enter_phone'),
                       numKeyPad: true,
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () async {
                         // validate all fields
-                        if (addressName.text.isEmpty ||
+                        if (street.text.isEmpty ||
                             doorNo.text.isEmpty ||
                             phoneNumber.text.isEmpty) {
                           floatingSnackBar(
-                              message: 'All fields are required',
+                              message: translate('all_fields_required'),
                               context: context);
 
                           return;
@@ -251,10 +260,8 @@ class _LocationScreenState extends State<LocationScreen> {
                               userId: Provider.of<LoginProvider>(context,
                                       listen: false)
                                   .emailId!,
-                              addressName: addressName.text,
                               doorNo: doorNo.text,
                               street: street.text,
-                              city: city.text,
                               phoneNumber: phoneNumber.text,
                               isDefault: false,
                             ),
@@ -265,10 +272,8 @@ class _LocationScreenState extends State<LocationScreen> {
                             Address(
                               id: address.id,
                               userId: address.userId,
-                              addressName: addressName.text,
                               street: street.text,
                               doorNo: doorNo.text,
-                              city: city.text,
                               phoneNumber: phoneNumber.text,
                               isDefault: address.isDefault,
                             ),
@@ -277,7 +282,11 @@ class _LocationScreenState extends State<LocationScreen> {
 
                         Navigator.pop(context); // Close the bottom sheet
                       },
-                      child: Text(address == null ? 'ADD' : 'UPDATE'),
+                      child: CustomText(
+                        address == null
+                            ? translate('add')
+                            : translate('update'),
+                      ),
                     ),
                   ],
                 ),
@@ -312,14 +321,11 @@ class AddressCustomTextField extends StatelessWidget {
               ? TextInputType.number
               : TextInputType.text,
       decoration: InputDecoration(
-        labelText: hintText == 'Phone Number 🇦🇪'
-            ? 'Enter your phone number'
-            : 'Enter your $hintText',
+        labelText: hintText,
         labelStyle: TextStyle(
-          fontSize: 14,
+          fontSize: 18,
           color: Colors.grey[600],
         ),
-        hintText: 'Enter your $hintText',
         hintStyle: TextStyle(
           color: Colors.grey[400],
         ),

@@ -137,11 +137,68 @@ class ProductDetailsScreen extends StatelessWidget {
                   //     ),
                   //   ],
                   // )),
-                  const Spacer(),
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(20),
+                        color: ColorClass.redAccentColor,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: ColorClass.redAccentColor,
+                            blurRadius: 10,
+                            spreadRadius: 1,
+                          )
+                        ],
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          try {
+                            if (loginProvider.isGuestLogin) {
+                              floatingSnackBar(
+                                  message:
+                                      translate('please_login_to_add_to_cart'),
+                                  context: context);
+                            } else {
+                              // Call the addToCart function
+                              await awSnap.addToCart(product);
+                              floatingSnackBar(
+                                  message: translate('added_to_cart'),
+                                  context: context);
+                            }
+                          } catch (error) {
+                            // Handle any errors here
+                            print("Error adding to cart: $error");
+                          } finally {
+                            // Ensure the loading indicator is dismissed if an error occurs
+                            // can pop the screen here
+                            Navigator.canPop(context)
+                                ? Navigator.pop(context)
+                                : null;
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorClass.redAccentColor,
+                        ),
+                        child: awSnap.isAddtoCartLoading
+                            ? LoadingAnimationWidget.horizontalRotatingDots(
+                                color: Colors.white,
+                                size: 30,
+                              )
+                            : CustomText(
+                                translate('call_to_order'),
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
                         color: ColorClass.kPrimaryColor,
                         boxShadow: const [
                           BoxShadow(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:souq_alqua/screens/cart/cart_screen.dart';
 import 'package:souq_alqua/screens/cart/providers/appwrite_cart_provider.dart';
+import 'package:souq_alqua/screens/cart/screen/checkout_screen.dart';
 
 import 'icon_btn_with_counter.dart';
 import 'search_field.dart';
@@ -29,7 +29,7 @@ class HomeHeader extends StatelessWidget {
                   
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CartScreen()),
+                    MaterialPageRoute(builder: (context) => const CheckOutScreen()),
                   );
                 }),
           ),

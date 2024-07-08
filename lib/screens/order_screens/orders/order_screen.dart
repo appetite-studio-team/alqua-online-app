@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/home/init_screen.dart';
 import 'package:souq_alqua/screens/order_screens/orders/providers/appwrite_order_provider.dart';
 import 'package:souq_alqua/screens/order_screens/orders/screens/order_detail_screen.dart';
@@ -32,12 +34,17 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Orders',
-          style: Theme.of(context).textTheme.bodyMedium,
+        title: CustomText(
+          translate('order'),
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
         ),
       ),
       body: Consumer<AppwriteOrderProvider>(
@@ -60,10 +67,10 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                         ImageClass.orderIcon,
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        "Still empty on orders?\n Let's start filling up that history!",
-                        style: Theme.of(context).textTheme.titleMedium,
-                        textAlign: TextAlign.center,
+                      CustomText(
+                        translate('no_orders'),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                       const SizedBox(height: 15),
                       // start shopping button with dropshadow
@@ -82,14 +89,15 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                         ),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, InitScreen.routeName);
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const InitScreen();
+                            }), (route) => false);
                           },
-                          child: const Text(
-                            "Start Shopping",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: CustomText(
+                            translate('start_shopping'),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -152,10 +160,10 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                     ),
                     title: Row(
                       children: [
-                        const Text(
-                          'Order ID:',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12),
+                        CustomText(
+                          '${translate('order_id')} : ',
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
                         ),
                         const SizedBox(
                           width: 5,
@@ -190,8 +198,14 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                           ),
                           child: Text(
                             order.data['status'] == 'Order-Placed'
-                                ? 'Order Placed'
-                                : order.data['status'],
+                                ? translate('order_placed')
+                                : order.data['status'] == 'Confirmed'
+                                    ? translate('confirmed')
+                                    : order.data['status'] == 'Delivered'
+                                        ? translate('delivered')
+                                        : order.data['status'] == 'Cancelled'
+                                            ? translate('cancelled')
+                                            : translate('order_placed'),
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -209,7 +223,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                           height: 5,
                         ),
                         Text(
-                          'Delivery Date: ${orderService.getFormattedDeliveryDate(order.$createdAt, order.data['status'])}',
+                          '${translate('order_date')} : ${DateFormat('MMMM d, yyyy').format(DateTime.parse(order.$createdAt))}',
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 12),
                         ),
@@ -217,10 +231,11 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                           height: 5,
                         ),
                         Text(
-                          'Order Date: ${DateFormat('MMMM d, yyyy').format(DateTime.parse(order.$createdAt))}',
+                          '${translate('delivery_date')} : ${orderService.getFormattedDeliveryDate(order.$createdAt, order.data['status'])}',
                           style: const TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 12),
                         ),
+
                         const SizedBox(
                           height: 5,
                         ),
@@ -230,13 +245,13 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Items: ${order.data['items'].length}',
+                              '${translate('items')} : ${order.data['items'].length}',
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 12),
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
+                            // const SizedBox(
+                            //   width: 10,
+                            // ),
                             // Text(
                             //   'Total: ${order.data['items'].fold(0, (prev, item) => prev + item['price'] * item['quantity'])}.00 AED',
                             //   style: const TextStyle(

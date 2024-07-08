@@ -1,8 +1,7 @@
-import 'package:souq_alqua/faq_screen/faq_screen.dart';
 import 'package:souq_alqua/helper/language_helper/custom_text.dart';
 import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/helper/language_helper/locale_provider.dart';
-import 'package:souq_alqua/screens/cart/cart_screen.dart';
+import 'package:souq_alqua/screens/cart/screen/checkout_screen.dart';
 import 'package:souq_alqua/screens/order_screens/delivery_locations/delivery_location.dart';
 import 'package:souq_alqua/screens/order_screens/delivery_locations/providers/delivery_location_provider.dart';
 import 'package:souq_alqua/screens/order_screens/orders/order_screen.dart';
@@ -136,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Consumer<LocaleProvider>(
                           builder: (context, langSnap, child) => ProfileMenu(
                             text: translate('change_language'),
-                            icon: "assets/icons/Settings.svg",
+                            icon: "assets/icons/language.svg",
                             press: () async {
                               String newLanguageCode =
                                   Localizations.localeOf(context)
@@ -157,17 +156,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 message: "Hello, I need help with my order.");
                           },
                         ),
-                        // ProfileMenu(
-                        //   text: translate('faq'),
-                        //   icon: "assets/icons/Question mark.svg",
-                        //   press: () {
-                        //     Navigator.push(context,
-                        //         MaterialPageRoute(builder: (context) {
-                        //       return const FaqScreen();
-                        //     }));
-                        //   },
-                        // ),
-
                         // version info
                         const SizedBox(height: 20),
                         Text(
@@ -256,7 +244,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Consumer<LocaleProvider>(
                       builder: (context, langSnap, child) => ProfileMenu(
                         text: translate('change_language'),
-                        icon: "assets/icons/Settings.svg",
+                        icon: "assets/icons/language.svg",
                         press: () async {
                           String newLanguageCode =
                               Localizations.localeOf(context).languageCode ==
@@ -273,7 +261,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       press: () => {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return const CartScreen();
+                          return const CheckOutScreen();
                         }))
                       },
                     ),
@@ -297,16 +285,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }))
                       },
                     ),
-                    ProfileMenu(
-                      text: translate('faq'),
-                      icon: "assets/icons/Question mark.svg",
-                      press: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const FaqScreen();
-                        }));
-                      },
-                    ),
+                    // ProfileMenu(
+                    //   text: translate('faq'),
+                    //   icon: "assets/icons/Question mark.svg",
+                    //   press: () {
+                    //     Navigator.push(context,
+                    //         MaterialPageRoute(builder: (context) {
+                    //       return const FaqScreen();
+                    //     }));
+                    //   },
+                    // ),
                     ProfileMenu(
                       text: translate('whatsapp_support'),
                       icon: ImageClass.whatsappIcon,

@@ -51,6 +51,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:souq_alqua/helper/db_helper.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/cart/providers/appwrite_cart_provider.dart';
 
 class AppwriteOrderProvider extends ChangeNotifier {
@@ -115,8 +116,12 @@ class AppwriteOrderProvider extends ChangeNotifier {
         AppwriteCartProvider cartProvider =
             Provider.of<AppwriteCartProvider>(context, listen: false);
         await cartProvider.reduceRewardPointOnOrder(context);
+        String translate(String key) {
+          return AppLocalizations.of(context)?.translate(key) ?? key;
+        }
+
         floatingSnackBar(
-            message: 'Order cancelled successfully', context: context);
+            message: translate('order_cancelled'), context: context);
       });
 
       isCancelOrderLoading = false;

@@ -2,6 +2,8 @@ import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/order_screens/orders/providers/appwrite_order_provider.dart';
 import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/constants.dart';
@@ -16,12 +18,17 @@ class OrderDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Orders Details',
-          style: Theme.of(context).textTheme.bodyMedium,
+        title: CustomText(
+          translate('order_details'),
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
         ),
       ),
       body: Consumer<AppwriteOrderProvider>(
@@ -83,7 +90,7 @@ class OrderDetailScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Text(
-                                  'Qty: ${item.data['items'][i]['quantity']}',
+                                  '${translate('qty')} : ${item.data['items'][i]['quantity']}',
                                   style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -102,11 +109,8 @@ class OrderDetailScreen extends StatelessWidget {
                     const Divider(),
                     // shiping address
                     ListTile(
-                      title: const Text(
-                        'Delivery Address',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
-                      ),
+                      title: CustomText(translate('delivery_address'),
+                          fontWeight: FontWeight.bold, fontSize: 12),
                       leading: Container(
                         padding: const EdgeInsets.all(10),
                         height: 40,
@@ -138,7 +142,7 @@ class OrderDetailScreen extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            'Phone: ${item.data['phoneNumber'] ?? '--'}',
+                            '${translate('phone')} :${item.data['phoneNumber'] ?? '--'}',
                             style: const TextStyle(fontSize: 12),
                           ),
                         ],
@@ -146,36 +150,38 @@ class OrderDetailScreen extends StatelessWidget {
                     ),
 
                     // payment method
-                    ListTile(
-                      title: const Text(
-                        'Payment Method',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
-                      ),
-                      leading: Container(
-                        padding: const EdgeInsets.all(10),
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F6F9),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Icon(
-                          Icons.payment,
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                      subtitle: Text(
-                        item.data['paymentMethod'] ?? '--',
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                    ),
+                    // ListTile(
+                    //   title: const Text(
+                    //     'Payment Method',
+                    //     style: TextStyle(
+                    //         fontWeight: FontWeight.bold, fontSize: 12),
+                    //   ),
+                    //   leading: Container(
+                    //     padding: const EdgeInsets.all(10),
+                    //     height: 40,
+                    //     width: 40,
+                    //     decoration: BoxDecoration(
+                    //       color: const Color(0xFFF5F6F9),
+                    //       borderRadius: BorderRadius.circular(10),
+                    //     ),
+                    //     child: const Icon(
+                    //       Icons.payment,
+                    //       color: kPrimaryColor,
+                    //     ),
+                    //   ),
+                    //   subtitle: Text(
+                    //     item.data['paymentMethod'] ?? '--',
+                    //     style: const TextStyle(fontSize: 12),
+                    //   ),
+                    // ),
                     // order status
                     ListTile(
-                      title: const Text(
-                        'Order Status',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
+                      title: CustomText(
+                        translate(
+                          'order_status',
+                        ),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
                       ),
                       leading: Container(
                         padding: const EdgeInsets.all(10),
@@ -190,37 +196,42 @@ class OrderDetailScreen extends StatelessWidget {
                           color: kPrimaryColor,
                         ),
                       ),
-                      subtitle: Text(
-                        item.data['status'] ?? '--',
-                        style: const TextStyle(fontSize: 12),
+                      subtitle: CustomText(
+                        item.data['status'] == 'Order-Placed'
+                            ? translate('order_placed')
+                            : item.data['status'] == 'Confirmed'
+                                ? translate('confirmed')
+                                : item.data['status'] == 'Delivered'
+                                    ? translate('delivered')
+                                    : item.data['status'] == 'Cancelled'
+                                        ? translate('cancelled')
+                                        : '--',
+                        fontSize: 12,
                       ),
                     ),
                     const Divider(),
                     // Delivery fee
-                    const ListTile(
+                    ListTile(
                       title: Row(
                         children: [
+                          CustomText(translate('delivery_fee'),
+                              fontWeight: FontWeight.bold, fontSize: 12),
+                          const Spacer(),
                           Text(
-                            'Delivery Fee',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                          Spacer(),
-                          Text(
-                            '0.00 AED',
-                            style: TextStyle(
+                            '${translate('aed')} 0.00',
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ],
                       ),
-                      subtitle: Row(
+                      subtitle: const Row(
                         children: [
-                          Text(
-                            'Total Amount',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                          Spacer(),
+                          // Text(
+                          //   'Total Amount',
+                          //   style: TextStyle(
+                          //       fontWeight: FontWeight.bold, fontSize: 12),
+                          // ),
+                          // Spacer(),
                           // Text(
                           //   '${item.data['items'].fold(0, (prev, item) => prev + item['price'] * item['quantity'])}.00 AED',
                           //   style: const TextStyle(
@@ -240,15 +251,32 @@ class OrderDetailScreen extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: const Text('Cancel Order'),
-                                  content: const Text(
-                                      'Are you sure you want to cancel this order?'),
+                                  title: CustomText(
+                                    translate(
+                                      'cancel_order',
+                                    ),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                  content: CustomText(
+                                    translate(
+                                      'confirm_order_cancel',
+                                    ),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: const Text('No'),
+                                      child: CustomText(
+                                        translate(
+                                          'no',
+                                        ),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                     TextButton(
                                       onPressed: () {
@@ -257,7 +285,13 @@ class OrderDetailScreen extends StatelessWidget {
                                             .then((value) =>
                                                 Navigator.of(context).pop());
                                       },
-                                      child: const Text('Yes'),
+                                      child: CustomText(
+                                        translate(
+                                          'yes',
+                                        ),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -274,12 +308,13 @@ class OrderDetailScreen extends StatelessWidget {
                                     color: Colors.white,
                                     size: 30,
                                   )
-                                : const Text(
-                                    'Cancel Order',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                : CustomText(
+                                    translate(
+                                      'cancel_order',
                                     ),
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
                                   ),
                           ),
                         ],

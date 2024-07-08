@@ -3,6 +3,8 @@
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:souq_alqua/helper/language_helper/custom_text.dart';
+import 'package:souq_alqua/helper/language_helper/l10n.dart';
 import 'package:souq_alqua/screens/cart/providers/appwrite_cart_provider.dart';
 import 'package:souq_alqua/screens/order_screens/delivery_locations/delivery_location.dart';
 import 'package:souq_alqua/screens/order_screens/delivery_locations/providers/delivery_location_provider.dart';
@@ -15,7 +17,6 @@ import 'package:souq_alqua/utils/color_class.dart';
 import 'package:souq_alqua/utils/constants.dart';
 import 'package:souq_alqua/utils/image_class.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:souq_alqua/utils/style_class.dart';
 
 class CheckOutScreen extends StatefulWidget {
   const CheckOutScreen({super.key});
@@ -42,13 +43,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String translate(String key) {
+      return AppLocalizations.of(context)?.translate(key) ?? key;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Consumer2<AppwriteCartProvider, LoginProvider>(
           builder: (context, snapshot, loginSnap, child) => Row(
             children: [
               Text(
-                "Checkout",
+                translate('my_cart'),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               loginSnap.isGuestLogin || snapshot.cartLength == 0
@@ -87,9 +92,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(ImageClass.loginIcon, height: 110),
-                      Text(
-                        "Ready to roll?\n Log in to make these yours",
-                        style: Theme.of(context).textTheme.titleMedium,
+                      CustomText(
+                        translate('login_profile'),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
@@ -98,13 +104,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 2,
                         child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const SignInScreen();
-                              }), (route) => false);
-                            },
-                            child: const Text('Login')),
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(context,
+                                MaterialPageRoute(builder: (context) {
+                              return const SignInScreen();
+                            }), (route) => false);
+                          },
+                          child: CustomText(
+                            translate('login'),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -129,9 +140,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   ),
                                   const SizedBox(height: 10),
                                   // order placed - shop will contact you
-                                  Text(
-                                    "تم تقديم الطلب، سيتصل بك المتجر",
-                                    style: TextStyleClass.text16BlackAr,
+                                  CustomText(
+                                    translate('cart_empty'),
+                                    fontSize: 16,
+                                    color: ColorClass.black,
+                                    fontWeight: FontWeight.w600,
                                     textAlign: TextAlign.center,
                                   ),
                                   const SizedBox(height: 15),
@@ -153,12 +166,15 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     ),
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, InitScreen.routeName);
+                                        Navigator.pushAndRemoveUntil(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return const InitScreen();
+                                        }), (route) => false);
                                       },
-                                      child: const Text(
-                                        "Start Shopping",
-                                        style: TextStyle(
+                                      child: Text(
+                                        translate('start_shopping'),
+                                        style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -229,6 +245,124 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   maxLines: 2,
                                                 ),
                                                 const SizedBox(height: 8),
+                                                Row(
+                                                  children: [
+                                                    IconButton(
+                                                      icon: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        9),
+                                                          ),
+                                                          child: const Icon(
+                                                              Icons.add)),
+                                                      onPressed: () {
+                                                        cartProvider
+                                                            .increamentProductQuantity(
+                                                                index,
+                                                                cartProvider
+                                                                    .productList);
+                                                      },
+                                                    ),
+                                                    Text(
+                                                      cartProvider
+                                                          .productList[index]
+                                                              ['quantity']
+                                                          .toString(),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium,
+                                                    ),
+                                                    IconButton(
+                                                      icon: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.1),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(9),
+                                                        ),
+                                                        child: const Icon(
+                                                          Icons.remove,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        cartProvider
+                                                            .decrementProductQuantity(
+                                                                index,
+                                                                cartProvider
+                                                                    .productList,
+                                                                context);
+                                                      },
+                                                    ),
+                                                    const Spacer(),
+                                                    IconButton(
+                                                      icon: Icon(
+                                                        Icons
+                                                            .remove_circle_outline,
+                                                        color: Colors.grey[400],
+                                                      ),
+                                                      onPressed: () {
+                                                        // show confirmation dialog
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              title: const Text(
+                                                                  'Remove Item'),
+                                                              content: const Text(
+                                                                  'Are you sure you want to remove this item from cart?'),
+                                                              actions: [
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child:
+                                                                      const Text(
+                                                                    'Cancel',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: ColorClass
+                                                                          .kPrimaryColor,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    cartProvider
+                                                                        .removeProduct(
+                                                                            index);
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child:
+                                                                      const Text(
+                                                                    'Remove',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: ColorClass
+                                                                          .kPrimaryColor,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                )
+
                                                 // Text(
                                                 //   '${cartProvider.productList[index]['quantity']} x AED ${(cartProvider.productList[index]['price']) * cartProvider.productList[index]['quantity']}.00',
                                                 //   style: Theme.of(context)
@@ -305,7 +439,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   subtitle: addressProvider.defaultAddress !=
                                           null
                                       ? Text(
-                                          "${addressProvider.defaultAddress!.addressName}, ${addressProvider.defaultAddress!.doorNo}, ${addressProvider.defaultAddress!.street}, ${addressProvider.defaultAddress!.city}\n${addressProvider.defaultAddress!.phoneNumber}",
+                                          "${addressProvider.defaultAddress!.street}, ${addressProvider.defaultAddress!.doorNo},\n${addressProvider.defaultAddress!.phoneNumber}",
                                           style: const TextStyle(fontSize: 12),
                                         )
                                       : const Text(
@@ -559,7 +693,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 phoneNumber:
                                     addressProvider.defaultAddress!.phoneNumber,
                                 deliveryAddrss:
-                                    "${addressProvider.defaultAddress!.addressName}, ${addressProvider.defaultAddress!.doorNo}, ${addressProvider.defaultAddress!.street}, ${addressProvider.defaultAddress!.city}",
+                                    "${addressProvider.defaultAddress!.street}, ${addressProvider.defaultAddress!.doorNo}",
                                 context: context,
                               );
                               floatingSnackBar(
