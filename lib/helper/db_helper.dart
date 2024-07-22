@@ -7,7 +7,7 @@ class DbHelper {
   static String shakeClientSecret =
       "ASnjbOtbp6EQCdpIlHjgwS9iYLDrkOAzRVv1RhFXeZVFzaoy9WVCVkJ";
   static String projectId = "66607bc200285b50bd56";
-  static String dbUrl = "https://appwrite.toycarshowroom.com/v1";
+  static String dbUrl = "https://appwrite.alqua.online/v1";
 
   // db ids
   static String orderMngmtDbId = "6683c23c00047ceb16db";

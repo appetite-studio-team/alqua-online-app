@@ -169,6 +169,7 @@ class LoginProvider extends ChangeNotifier {
         await account.createOAuth2Session(
           provider: OAuthProvider.google,
           success: 'https://app.alqua.online/auth.html',
+          // success: 'http://localhost:60284/auth.html',
           scopes: ['email', 'profile'],
         );
       } else {
