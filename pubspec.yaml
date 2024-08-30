@@ -16,7 +16,12 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.2+3
+
+# Appstore version
+# version: 1.0.0+1
+
+# Playstore version
+version: 1.0.3+4
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
@@ -24,7 +29,7 @@ environment:
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
+# dependencies can be manually updated by changing the version numbers below to 
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
@@ -33,6 +38,9 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  # google_sign_in: ^6.1.4
+  # onesignal_flutter: ^5.1.6
+  # shake_flutter: ^16.2.1
   cupertino_icons: ^1.0.2
   flutter_svg: 
   provider: ^6.1.1 # for State management
@@ -40,10 +48,7 @@ dependencies:
   change_app_package_name: ^1.1.0
   lottie: ^3.1.0
   share_plus: ^7.2.2
-  # shake_flutter: ^16.2.1
   shared_preferences: ^2.2.3
-  # google_sign_in: ^6.1.4
-  # onesignal_flutter: ^5.1.6
   url_launcher: ^6.2.6
   loading_animation_widget: ^1.2.1
   appwrite: ^12.0.1
@@ -55,6 +60,8 @@ dependencies:
   google_fonts: ^5.0.0
   path_provider: 
   image:
+  device_preview:
+
   flutter_localizations:
     sdk: flutter
   

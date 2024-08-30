@@ -1,4 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:appwrite/appwrite.dart' as appwrite;
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:souq_alqua/helper/db_helper.dart';
@@ -72,24 +75,50 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context);
+    final isMobileDevice = MediaQuery.of(context).size.width < 800;
 
-    return MaterialApp(
-      locale: localeProvider.locale,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('ar', ''),
-      ],
-      debugShowCheckedModeBanner: false,
-      title: 'Souq Alqua',
-      theme: AppTheme.lightTheme(context),
-      initialRoute: SplashScreen.routeName,
-      routes: routes,
-    );
+    return isMobileDevice
+        ? MaterialApp(
+            locale: localeProvider.locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en', ''),
+              Locale('ar', ''),
+            ],
+            debugShowCheckedModeBanner: false,
+            title: 'Souq Alqua',
+            theme: AppTheme.lightTheme(context),
+            initialRoute: SplashScreen.routeName,
+            routes: routes,
+          )
+        : DevicePreview(
+            enabled: true,
+            isToolbarVisible: false,
+            builder: (context) => MaterialApp(
+              locale: localeProvider.locale,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en', ''),
+                Locale('ar', ''),
+              ],
+              debugShowCheckedModeBanner: false,
+              title: 'Souq Alqua',
+              theme: AppTheme.lightTheme(context),
+              initialRoute: SplashScreen.routeName,
+              routes: routes,
+              useInheritedMediaQuery: true,
+              builder: DevicePreview.appBuilder,
+            ),
+          );
   }
 }
